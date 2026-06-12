@@ -4,653 +4,605 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adarsh Maurya — Software Engineer</title>
-  <meta name="description" content="Software Engineer specialising in full-stack development, machine learning, and AI-powered products. Based in Delhi, India." />
+  <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<!-- Interactive background canvas -->
-<canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <!-- Canvas for interactive background -->
+  <canvas id="bg-canvas"></canvas>
 
-<!-- ========== MODAL OVERLAY ========== -->
-<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="modal-box">
-    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-icon" id="modal-icon"></div>
-    <div class="modal-meta" id="modal-meta"></div>
-    <h2 class="modal-title" id="modal-title"></h2>
-    <p class="modal-subtitle" id="modal-subtitle"></p>
-    <div class="modal-body" id="modal-body"></div>
-    <div class="modal-tech" id="modal-tech"></div>
-  </div>
-</div>
-
-<!-- ========== NAV ========== -->
-<nav id="navbar">
-  <div class="nav-inner">
-    <!-- SVG Logo -->
-    <a href="#hero" class="nav-logo-link" aria-label="Adarsh Maurya home">
-      <svg class="nav-svg-logo" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="10" fill="var(--accent)" fill-opacity="0.12"/>
-        <rect x="0.5" y="0.5" width="39" height="39" rx="9.5" stroke="var(--accent)" stroke-opacity="0.4"/>
-        <!-- A letterform -->
-        <path d="M20 9L29.5 31H26.2L23.8 25H16.2L13.8 31H10.5L20 9Z" fill="var(--accent)"/>
-        <path d="M17.4 22.2H22.6L20 15.8L17.4 22.2Z" fill="var(--bg)"/>
-        <!-- dot accent -->
-        <circle cx="31" cy="31" r="2.2" fill="var(--accent-2)"/>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo" aria-label="Home">
+      <svg class="logo-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00c8ff"/>
+            <stop offset="100%" stop-color="#7b2fff"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <polygon points="22,4 38,38 6,38" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linejoin="round" filter="url(#glow)" class="logo-triangle"/>
+        <line x1="11" y1="29" x2="33" y2="29" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" class="logo-bar"/>
+        <text x="22" y="33" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="14" fill="url(#logoGrad)" class="logo-letter">A</text>
       </svg>
+      <span class="logo-name">Adarsh</span>
     </a>
+
     <ul class="nav-links" id="nav-links">
-      <li class="nav-mobile-header">
-        <span class="nav-mobile-brand">AM<span>.</span></span>
-        <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Close menu">✕</button>
-      </li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#achievements">Achievements</a></li>
-      <li><a href="#contact" class="nav-cta">Let's talk</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#experience" class="nav-link">Experience</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#achievements" class="nav-link">Achievements</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
     </ul>
-    <div class="nav-right">
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
-        <svg class="icon-moon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="icon-sun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+
+    <div class="nav-actions">
+      <button id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle theme">
+        <span class="theme-icon">☀️</span>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <a href="https://github.com/adarshmsd1" target="_blank" rel="noopener" class="btn-outline btn-sm">GitHub</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
     </div>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#experience" class="nav-link">Experience</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#achievements" class="nav-link">Achievements</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
   </div>
-</nav>
 
-<!-- ========== HERO ========== -->
-<section id="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-particles" id="hero-particles"></div>
-  <div class="container">
-    <div class="hero-content">
-      <p class="hero-eyebrow animate-in" style="--delay:0.1s">
-        <span class="eyebrow-dot"></span>Available for opportunities
-      </p>
-      <h1 class="hero-name animate-in" style="--delay:0.2s">Adarsh<br/>Maurya</h1>
-      <p class="hero-title animate-in" style="--delay:0.35s">
-        <span id="typed-text"></span><span class="cursor"></span>
-      </p>
-      <p class="hero-bio animate-in" style="--delay:0.5s">
-        B.Tech CS grad from IET Bundelkhand University. Currently at Ksolves India, building connectors and Odoo solutions. I like shipping things that work — from ML pipelines to full-stack web apps.
-      </p>
-      <div class="hero-actions animate-in" style="--delay:0.65s">
-        <a href="#contact" class="btn btn-primary">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Get in touch
-        </a>
-        <a href="#projects" class="btn btn-ghost">
-          View projects
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-      <div class="hero-stats animate-in" style="--delay:0.8s">
-        <div class="stat-item">
-          <div class="stat-num" data-count="1200">0</div>
-          <div class="stat-label">DSA Problems</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num" data-count="1782">0</div>
-          <div class="stat-label">LeetCode Rating</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num" data-suffix="%+">95</div>
-          <div class="stat-label">Model Accuracy</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num" data-suffix="+">5</div>
-          <div class="stat-label">Years Building</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-arrow"></div>
-  </div>
-</section>
+  <main>
 
-<!-- ========== SKILLS ========== -->
-<section id="skills">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">What I work with</span>
-      <h2 class="section-title">Skills &amp; <span>Technologies</span></h2>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-category fade-up"
-           data-modal="skill"
-           data-icon="💻"
-           data-title="Languages"
-           data-meta="Core Programming"
-           data-desc="Proficient in Python for ML/backend, C++ for competitive programming and performance-critical code, JavaScript for full-stack web, and SQL for data work. 1200+ DSA problems solved across platforms."
-           data-tech="Python,C++,JavaScript,SQL,TypeScript">
-        <div class="skill-cat-label">Languages</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">C++</span>
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">SQL</span>
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="hero-content">
+        <div class="hero-badge reveal">
+          <span class="badge-dot"></span>
+          <span>Available for opportunities</span>
         </div>
-        <div class="card-hover-hint">Click for details →</div>
-      </div>
-      <div class="skill-category fade-up"
-           data-modal="skill"
-           data-icon="🌐"
-           data-title="Web Frameworks"
-           data-meta="Full-Stack Development"
-           data-desc="Built production REST APIs with Django DRF, social media backends with custom middleware and Celery/Redis queues, virtual lab apps with jQuery and Webflow, and alumni portals with ReactJS."
-           data-tech="Django,Django REST Framework,Flask,ReactJS,jQuery,Webflow">
-        <div class="skill-cat-label">Web Frameworks</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Django</span>
-          <span class="skill-tag">Django REST</span>
-          <span class="skill-tag">Flask</span>
-          <span class="skill-tag">ReactJS</span>
-          <span class="skill-tag">jQuery</span>
-        </div>
-        <div class="card-hover-hint">Click for details →</div>
-      </div>
-      <div class="skill-category fade-up"
-           data-modal="skill"
-           data-icon="🤖"
-           data-title="Machine Learning"
-           data-meta="AI / ML Engineering"
-           data-desc="Hands-on experience fine-tuning transformers (Helsinki-NLP, BERT, GPT), building classification models with Scikit-Learn, deep learning with TensorFlow/Keras/PyTorch, NLP pipelines, and computer vision projects."
-           data-tech="Scikit-Learn,TensorFlow,Keras,PyTorch,NLP,BERT/GPT,Computer Vision,HuggingFace,Transformers">
-        <div class="skill-cat-label">Machine Learning</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Scikit-Learn</span>
-          <span class="skill-tag">TensorFlow</span>
-          <span class="skill-tag">Keras</span>
-          <span class="skill-tag">PyTorch</span>
-          <span class="skill-tag">NLP</span>
-          <span class="skill-tag">BERT / GPT</span>
-          <span class="skill-tag">Computer Vision</span>
-        </div>
-        <div class="card-hover-hint">Click for details →</div>
-      </div>
-      <div class="skill-category fade-up"
-           data-modal="skill"
-           data-icon="📊"
-           data-title="Data Science"
-           data-meta="Analytics & Visualisation"
-           data-desc="Data preprocessing, feature engineering, and statistical analysis with Pandas/NumPy/SciPy. Built interactive Power BI dashboards for real-time stakeholder decision-making at Kiwi DS Consulting."
-           data-tech="Pandas,NumPy,SciPy,Power BI,Tableau,Statistics,Matplotlib,Seaborn">
-        <div class="skill-cat-label">Data Science</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Pandas</span>
-          <span class="skill-tag">NumPy</span>
-          <span class="skill-tag">SciPy</span>
-          <span class="skill-tag">Power BI</span>
-          <span class="skill-tag">Tableau</span>
-          <span class="skill-tag">Statistics</span>
-        </div>
-        <div class="card-hover-hint">Click for details →</div>
-      </div>
-      <div class="skill-category fade-up"
-           data-modal="skill"
-           data-icon="🗄️"
-           data-title="Databases"
-           data-meta="Data Storage & Querying"
-           data-desc="Designed and optimised relational and NoSQL schemas. PostgreSQL connector product at Ksolves achieved 90% improvement in data import performance. Hands-on with complex joins, indexing, and aggregation pipelines."
-           data-tech="PostgreSQL,MongoDB,SQLite,MySQL,Redis">
-        <div class="skill-cat-label">Databases</div>
-        <div class="skill-tags">
-          <span class="skill-tag">PostgreSQL</span>
-          <span class="skill-tag">MongoDB</span>
-          <span class="skill-tag">SQLite</span>
-          <span class="skill-tag">MySQL</span>
-        </div>
-        <div class="card-hover-hint">Click for details →</div>
-      </div>
-      <div class="skill-category fade-up"
-           data-modal="skill"
-           data-icon="🛠️"
-           data-title="Tools & Platforms"
-           data-meta="DevOps & Tooling"
-           data-desc="Deployed ML apps on AWS Elastic Beanstalk, conducted load testing with Locust (35% API improvement), built with Odoo ORM and Owl framework, used Celery + Redis for async task queues, and designed in Figma."
-           data-tech="AWS,Git,Docker,Figma,Webflow,Odoo,Redis,Celery,Locust,Vectary">
-        <div class="skill-cat-label">Tools &amp; Platforms</div>
-        <div class="skill-tags">
-          <span class="skill-tag">AWS</span>
-          <span class="skill-tag">Git</span>
-          <span class="skill-tag">Docker</span>
-          <span class="skill-tag">Figma</span>
-          <span class="skill-tag">Webflow</span>
-          <span class="skill-tag">Odoo</span>
-          <span class="skill-tag">Redis</span>
-          <span class="skill-tag">Celery</span>
-        </div>
-        <div class="card-hover-hint">Click for details →</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== EXPERIENCE ========== -->
-<section id="experience">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Where I've worked</span>
-      <h2 class="section-title">Work <span>Experience</span></h2>
-    </div>
-    <div class="timeline">
-      <div class="timeline-line"></div>
-
-      <div class="timeline-item"
-           data-modal="exp"
-           data-icon="💼"
-           data-title="Software Engineer"
-           data-subtitle="Ksolves India Limited"
-           data-meta="Jun 2024 – Present · Noida, India"
-           data-desc="Leading client-facing project delivery and development of multiple products. Key highlight: a connector product that achieved 90% improvement in data import performance by leveraging high-performance Python and PostgreSQL architecture."
-           data-points="Led client-facing delivery for multiple projects and products|Built a connector achieving 90% improvement in data import via Python + PostgreSQL|Specialised in Odoo ORM, Odoo Owl, JavaScript and QWeb front-end/back-end customisation|Designed and shipped website projects improving user engagement and sales metrics"
-           data-tech="Python,PostgreSQL,Odoo,JavaScript,QWeb,ORM">
-        <div class="timeline-dot-wrap">
-          <div class="timeline-dot"></div>
-          <div class="timeline-pulse"></div>
-        </div>
-        <div class="timeline-card">
-          <div class="timeline-meta">Jun 2024 – Present &nbsp;·&nbsp; Noida, India</div>
-          <div class="timeline-role">Software Engineer</div>
-          <div class="timeline-company">Ksolves India Limited</div>
-          <ul class="timeline-list">
-            <li>90% improvement in data import performance via Python + PostgreSQL connector.</li>
-            <li>Odoo ORM, Owl, JavaScript and QWeb customisation across front-end and back-end.</li>
-            <li>Delivered website projects that measurably improved user engagement and sales.</li>
-          </ul>
-          <div class="timeline-click-hint">Click to expand ↗</div>
-        </div>
-      </div>
-
-      <div class="timeline-item"
-           data-modal="exp"
-           data-icon="📈"
-           data-title="Data Science Intern"
-           data-subtitle="Kiwi DS Consulting"
-           data-meta="Mar 2024 – May 2024 · Gurugram, India"
-           data-desc="Contributed to data analytics and ML consulting projects. Built Power BI dashboards for real-time stakeholder decision-making and wrote Python pipelines for data preprocessing and transformation."
-           data-points="Delivered ML models and insights for data science consulting projects|Python scripts for data cleaning, transformation and feature engineering|Complex SQL queries across relational databases for client data extraction|Built and maintained interactive Power BI dashboards for real-time stakeholder reporting"
-           data-tech="Python,SQL,Power BI,Machine Learning,Pandas,NumPy">
-        <div class="timeline-dot-wrap">
-          <div class="timeline-dot"></div>
-          <div class="timeline-pulse"></div>
-        </div>
-        <div class="timeline-card">
-          <div class="timeline-meta">Mar 2024 – May 2024 &nbsp;·&nbsp; Gurugram, India</div>
-          <div class="timeline-role">Data Science Intern</div>
-          <div class="timeline-company">Kiwi DS Consulting</div>
-          <ul class="timeline-list">
-            <li>Delivered data analytics and ML models for consulting projects.</li>
-            <li>Built interactive Power BI dashboards for real-time stakeholder decisions.</li>
-            <li>Python scripts for preprocessing; complex SQL for relational DB extraction.</li>
-          </ul>
-          <div class="timeline-click-hint">Click to expand ↗</div>
-        </div>
-      </div>
-
-      <div class="timeline-item"
-           data-modal="exp"
-           data-icon="🔬"
-           data-title="Software Engineer Intern"
-           data-subtitle="IIT Kanpur"
-           data-meta="Sep 2023 – Jan 2024 · Hybrid"
-           data-desc="Built virtual lab simulation applications at one of India's premier engineering institutes. Fine-tuned the Helsinki-NLP transformer model on the IITB English-Hindi dataset to power real-time translated lab instructions."
-           data-points="Created virtual lab simulation apps using 7–8 technologies including CSS, JS, Figma, Vectary, Webflow and jQuery|Fine-tuned Helsinki-NLP/opus-mt-en-hi transformer on IITB English-Hindi dataset|Achieved 95%+ translation accuracy for English-to-Hindi simulation instructions|Thoroughly analysed lab data and machinery to design accurate simulations"
-           data-tech="JavaScript,CSS,jQuery,Figma,Vectary,Webflow,HuggingFace,Transformers,NLP">
-        <div class="timeline-dot-wrap">
-          <div class="timeline-dot"></div>
-          <div class="timeline-pulse"></div>
-        </div>
-        <div class="timeline-card">
-          <div class="timeline-meta">Sep 2023 – Jan 2024 &nbsp;·&nbsp; IIT Kanpur (Hybrid)</div>
-          <div class="timeline-role">Software Engineer Intern</div>
-          <div class="timeline-company">Indian Institute of Technology Kanpur</div>
-          <ul class="timeline-list">
-            <li>Built virtual lab simulation apps using 7–8 technologies including Figma, Webflow, jQuery.</li>
-            <li>Fine-tuned Helsinki-NLP transformer; 95%+ English→Hindi translation accuracy.</li>
-          </ul>
-          <div class="timeline-click-hint">Click to expand ↗</div>
-        </div>
-      </div>
-
-      <div class="timeline-item"
-           data-modal="exp"
-           data-icon="🤖"
-           data-title="Machine Learning Intern"
-           data-subtitle="iNeuron.ai"
-           data-meta="May 2023 – Jul 2023 · Remote"
-           data-desc="Completed an end-to-end cybersecurity ML project with a team of 4. Built and deployed a phishing domain predictor with 95.09% accuracy on 88,647 records using Random Forest with GridSearchCV tuning."
-           data-points="End-to-end Phishing Domain prediction ML project in Cybersecurity domain|Dataset of 88,647 records and 111 features; hyperparameter tuning with GridSearchCV|Trained models: logistic regression, decision trees, SVC, random forests|95.09% accuracy on phishing domain prediction; deployed on AWS Elastic Beanstalk via Flask"
-           data-tech="Python,Scikit-Learn,Flask,AWS,Random Forest,GridSearchCV,Logistic Regression">
-        <div class="timeline-dot-wrap">
-          <div class="timeline-dot"></div>
-          <div class="timeline-pulse"></div>
-        </div>
-        <div class="timeline-card">
-          <div class="timeline-meta">May 2023 – Jul 2023 &nbsp;·&nbsp; Remote</div>
-          <div class="timeline-role">Machine Learning Intern</div>
-          <div class="timeline-company">iNeuron.ai</div>
-          <ul class="timeline-list">
-            <li>Phishing domain predictor: 88,647 records, 111 features, 95.09% accuracy.</li>
-            <li>GridSearchCV on Random Forest; deployed on AWS Elastic Beanstalk.</li>
-          </ul>
-          <div class="timeline-click-hint">Click to expand ↗</div>
-        </div>
-      </div>
-
-      <div class="timeline-item"
-           data-modal="exp"
-           data-icon="⚙️"
-           data-title="SDE Intern"
-           data-subtitle="Tigbar"
-           data-meta="Oct 2022 – Dec 2022 · Remote"
-           data-desc="Collaborated with the Django DRF backend team on a social media app. Improved API performance with load testing and fixed critical bugs that contributed to a 20% increase in daily active users."
-           data-points="Custom middleware development and REST API testing with Django DRF|Locust load testing — improved API response times by 35%|Implemented share links for posts and resolved blocked-user bugs|20% increase in daily active users post-fix; learned Celery and Redis"
-           data-tech="Django,DRF,Locust,Celery,Redis,REST API">
-        <div class="timeline-dot-wrap">
-          <div class="timeline-dot"></div>
-          <div class="timeline-pulse"></div>
-        </div>
-        <div class="timeline-card">
-          <div class="timeline-meta">Oct 2022 – Dec 2022 &nbsp;·&nbsp; Remote</div>
-          <div class="timeline-role">SDE Intern</div>
-          <div class="timeline-company">Tigbar</div>
-          <ul class="timeline-list">
-            <li>Locust load testing — 35% improvement in API response times.</li>
-            <li>Bug fixes and share links → 20% increase in daily active users.</li>
-          </ul>
-          <div class="timeline-click-hint">Click to expand ↗</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ========== PROJECTS ========== -->
-<section id="projects">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Things I've built</span>
-      <h2 class="section-title">Featured <span>Projects</span></h2>
-    </div>
-    <div class="projects-grid">
-
-      <div class="project-card fade-up"
-           data-modal="project"
-           data-icon="🚀"
-           data-title="Workstation"
-           data-meta="Dec 2025 – Present · Personal Project"
-           data-desc="A platform for founders to collaborate on projects, find co-founders, and turn ideas into reality. Built to connect builders, makers and indie hackers who want to ship together."
-           data-points="Founder collaboration and co-founder matching platform|Project discovery and idea validation tools|Real-time collaboration features for distributed teams|Built to serve the indie hacker / bootstrapped startup community"
-           data-tech="Full-Stack,Collaboration Tools,Founder Network,Indie Hacking">
-        <div class="project-icon">🚀</div>
-        <div class="project-meta">Dec 2025 – Present &nbsp;·&nbsp; Personal</div>
-        <div class="project-name">Workstation</div>
-        <p class="project-desc">A platform for founders to collaborate on projects and turn ideas into reality.</p>
-        <div class="project-tech">
-          <span class="tech-badge">Full-Stack</span>
-          <span class="tech-badge">Collaboration</span>
-          <span class="tech-badge">Founder Tools</span>
-        </div>
-        <div class="project-open-hint">View details ↗</div>
-      </div>
-
-      <div class="project-card fade-up"
-           data-modal="project"
-           data-icon="🎓"
-           data-title="LinkPad"
-           data-meta="Jan 2024 – Present · Academic Project"
-           data-desc="A feature-rich alumni portal with an embedded fake-information classifier. The NLP classifier uses a Bi-directional RNN to identify fake articles with 92%+ accuracy. Developed 10+ features across the platform."
-           data-points="Fake-information classifier using Bi-directional RNN — 92%+ accuracy|User profiles, dashboards, and personalised job & internship matching|Content recommendation engine and AI chatbot|Event management, analytics & insights, content generation|Data security, privacy controls and feedback system"
-           data-tech="Django,ReactJS,NLP,Bi-RNN,Python,PostgreSQL,Machine Learning">
-        <div class="project-icon">🎓</div>
-        <div class="project-meta">Jan 2024 – Present &nbsp;·&nbsp; Academic</div>
-        <div class="project-name">LinkPad</div>
-        <p class="project-desc">Alumni portal with a Bi-RNN fake-information classifier (92%+ accuracy) and 10+ features.</p>
-        <div class="project-tech">
-          <span class="tech-badge">Django</span>
-          <span class="tech-badge">ReactJS</span>
-          <span class="tech-badge">NLP</span>
-          <span class="tech-badge">Bi-RNN</span>
-        </div>
-        <div class="project-open-hint">View details ↗</div>
-      </div>
-
-      <div class="project-card fade-up"
-           data-modal="project"
-           data-icon="🛡️"
-           data-title="Anti-Doping WebApp"
-           data-meta="Mar 2022 – Aug 2022 · Smart India Hackathon"
-           data-desc="Government-facing web application built for the Ministry of Youth Affairs and Sports, India. Delivered as part of Smart India Hackathon 2022 with 10+ features supporting athletes, coaches, and sports officials."
-           data-points="Built for Ministry of Youth Affairs and Sports, Government of India|AI chatbot for athlete and official support|Multi-language support for diverse user base|Drug search and information database|Video conferencing for virtual consultations|REST APIs connecting frontend to Django/MongoDB backend"
-           data-tech="HTML,CSS,JavaScript,Bootstrap,Django,DRF,MongoDB,REST API">
-        <div class="project-icon">🛡️</div>
-        <div class="project-meta">Mar 2022 – Aug 2022 &nbsp;·&nbsp; Hackathon</div>
-        <div class="project-name">Anti-Doping WebApp</div>
-        <p class="project-desc">Web app for Ministry of Youth Affairs & Sports with chatbot, multi-language and video conferencing.</p>
-        <div class="project-tech">
-          <span class="tech-badge">Django</span>
-          <span class="tech-badge">MongoDB</span>
-          <span class="tech-badge">REST API</span>
-          <span class="tech-badge">Bootstrap</span>
-        </div>
-        <div class="project-open-hint">View details ↗</div>
-      </div>
-
-      <div class="project-card fade-up"
-           data-modal="project"
-           data-icon="🔐"
-           data-title="Phishing Domain Detector"
-           data-meta="2023 · ML / Cybersecurity"
-           data-desc="End-to-end machine learning system for predicting phishing domains in the cybersecurity domain. Trained on 88,647 records with 111 features, deployed as a Flask app on AWS Elastic Beanstalk."
-           data-points="88,647 records · 111 features dataset from cybersecurity domain|Models trained: Logistic Regression, Decision Trees, SVC, Random Forests|Hyperparameter tuning with GridSearchCV on Random Forest Classifier|95.09% accuracy in phishing domain prediction|Deployed on AWS Elastic Beanstalk via Flask framework"
-           data-tech="Python,Scikit-Learn,Flask,AWS Elastic Beanstalk,GridSearchCV,Pandas,NumPy">
-        <div class="project-icon">🔐</div>
-        <div class="project-meta">2023 &nbsp;·&nbsp; ML / Cybersecurity</div>
-        <div class="project-name">Phishing Domain Detector</div>
-        <p class="project-desc">95.09% accuracy on 88,647 records. Deployed on AWS Elastic Beanstalk via Flask.</p>
-        <div class="project-tech">
-          <span class="tech-badge">Python</span>
-          <span class="tech-badge">Scikit-Learn</span>
-          <span class="tech-badge">Flask</span>
-          <span class="tech-badge">AWS</span>
-        </div>
-        <div class="project-open-hint">View details ↗</div>
-      </div>
-
-      <div class="project-card fade-up"
-           data-modal="project"
-           data-icon="🔬"
-           data-title="Virtual Lab Simulations"
-           data-meta="2023 · IIT Kanpur"
-           data-desc="Interactive virtual laboratory simulation applications for IIT Kanpur. Integrated a fine-tuned multilingual NLP transformer (Helsinki-NLP) to deliver real-time English-to-Hindi translated lab instructions."
-           data-points="Virtual lab simulation apps built with 7–8 technologies|CSS, JavaScript, Figma, Vectary, Webflow and jQuery stack|Fine-tuned Helsinki-NLP/opus-mt-en-hi on IITB English-Hindi dataset|95%+ English-to-Hindi translation accuracy for simulation instructions|Thorough analysis of physical lab data and machinery for accurate simulation"
-           data-tech="JavaScript,jQuery,CSS,Figma,Vectary,Webflow,HuggingFace,Transformers,NLP">
-        <div class="project-icon">🔬</div>
-        <div class="project-meta">2023 &nbsp;·&nbsp; IIT Kanpur</div>
-        <div class="project-name">Virtual Lab Simulations</div>
-        <p class="project-desc">Fine-tuned Helsinki-NLP transformer for 95%+ English→Hindi instruction translation.</p>
-        <div class="project-tech">
-          <span class="tech-badge">JavaScript</span>
-          <span class="tech-badge">Webflow</span>
-          <span class="tech-badge">Transformers</span>
-          <span class="tech-badge">HuggingFace</span>
-        </div>
-        <div class="project-open-hint">View details ↗</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ========== ACHIEVEMENTS ========== -->
-<section id="achievements">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Highlights</span>
-      <h2 class="section-title">Achievements &amp; <span>Recognition</span></h2>
-    </div>
-    <div class="achievements-list">
-      <div class="achievement-item fade-up"
-           data-modal="ach"
-           data-icon="⚡"
-           data-title="LeetCode Top 8% Globally"
-           data-meta="Competitive Programming"
-           data-desc="Achieved a 1782 rating on LeetCode, placing in the top 8% of programmers worldwide. Solved 1200+ DSA problems spanning arrays, trees, graphs, DP, and system design across LeetCode, HackerRank, GeeksForGeeks, and Codeforces."
-           data-tech="Data Structures,Algorithms,Dynamic Programming,Graph Theory,System Design">
-        <div class="achievement-icon">⚡</div>
-        <p class="achievement-text">
-          <strong>LeetCode 1782 rating</strong> — Top 8% globally with 1200+ DSA problems solved across LeetCode, HackerRank, GeeksForGeeks, and Codeforces.
+        <h1 class="hero-title reveal">
+          <span class="line">Hi, I'm</span>
+          <span class="line accent-gradient">Adarsh Maurya</span>
+        </h1>
+        <p class="hero-role reveal">
+          <span class="typed-text" id="typed"></span><span class="cursor">|</span>
         </p>
-        <div class="ach-hint">↗</div>
-      </div>
-      <div class="achievement-item fade-up"
-           data-modal="ach"
-           data-icon="🏛️"
-           data-title="IDE Boot Camp 2023"
-           data-meta="Ministry of Education, Government of India"
-           data-desc="Selected to present an innovative startup concept at IDE Boot Camp 2023, organised by NITTTR Chandigarh under the Ministry of Education, Government of India. The idea leveraged AI/ML in education — automating quiz generation, assignment grading, personalised video recommendations, and adaptive learning paths."
-           data-tech="AI/ML in Education,Startup Ideation,EdTech,Product Pitch">
-        <div class="achievement-icon">🏛️</div>
-        <p class="achievement-text">
-          <strong>IDE Boot Camp 2023</strong> — Presented an AI/ML-powered education startup at NITTTR Chandigarh, Ministry of Education, Government of India.
+        <p class="hero-desc reveal">
+          Software Engineer crafting high-performance backends, intelligent ML systems,<br>and seamless full-stack experiences. Based in India.
         </p>
-        <div class="ach-hint">↗</div>
-      </div>
-      <div class="achievement-item fade-up"
-           data-modal="ach"
-           data-icon="📊"
-           data-title="GATE DS 2025 — Rank 5646"
-           data-meta="National Examination"
-           data-desc="Cleared GATE (Graduate Aptitude Test in Engineering) Data Science & AI 2025 with an all-India rank of 5646. GATE DS is one of India's most competitive national examinations for postgraduate admissions and PSU recruitment."
-           data-tech="Data Science,AI,Statistics,Machine Learning,Mathematics">
-        <div class="achievement-icon">📊</div>
-        <p class="achievement-text">
-          <strong>GATE DS 2025 — Rank 5646</strong> in the national Data Science &amp; AI examination.
-        </p>
-        <div class="ach-hint">↗</div>
-      </div>
-      <div class="achievement-item fade-up"
-           data-modal="ach"
-           data-icon="🥈"
-           data-title="2nd Rank — PW Data Science Masters"
-           data-meta="Physics Wallah · 50,000+ Students"
-           data-desc="Ranked 2nd among 50,000+ students in the Data Science Masters course by Physics Wallah (PW), one of India's largest online education platforms. Covered ML, deep learning, statistics, SQL, and Python at scale."
-           data-tech="Data Science,Machine Learning,Python,SQL,Deep Learning,Statistics">
-        <div class="achievement-icon">🥈</div>
-        <p class="achievement-text">
-          <strong>2nd rank</strong> among 50,000+ students in the Data Science Masters course by Physics Wallah (PW).
-        </p>
-        <div class="ach-hint">↗</div>
-      </div>
-      <div class="achievement-item fade-up"
-           data-modal="ach"
-           data-icon="🎓"
-           data-title="8.39 CGPA — B.Tech CSE"
-           data-meta="IET Bundelkhand University · 2020–2024"
-           data-desc="Graduated with a strong 8.39 CGPA in Computer Science & Engineering from IET Bundelkhand University. Coursework covered OOPS, DBMS, Operating Systems, Computer Networks, Data Structures, Algorithms, and Big Data."
-           data-tech="Computer Science,OOPS,DBMS,Operating Systems,Computer Networks,Big Data">
-        <div class="achievement-icon">🎓</div>
-        <p class="achievement-text">
-          <strong>8.39 CGPA</strong> — B.Tech Computer Science &amp; Engineering, IET Bundelkhand University (2020–2024).
-        </p>
-        <div class="ach-hint">↗</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== CONTACT ========== -->
-<section id="contact">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Say hello</span>
-      <h2 class="section-title">Get in <span>Touch</span></h2>
-    </div>
-    <div class="contact-wrapper">
-      <div class="fade-up">
-        <p class="contact-bio">
-          I'm open to full-time roles, freelance projects, and interesting collaborations. Whether you have a job opportunity, want to build something together, or just want to talk tech — feel free to reach out.
-        </p>
-        <div class="contact-links">
-          <a href="mailto:adarshmsd1@gmail.com" class="contact-link">
-            <div class="contact-link-icon">✉️</div>
-            adarshmsd1@gmail.com
-          </a>
-          <a href="tel:+917071161116" class="contact-link">
-            <div class="contact-link-icon">📞</div>
-            +91 70711 61116
-          </a>
-          <a href="https://linkedin.com/in/adarsh-maurya" target="_blank" rel="noopener" class="contact-link">
-            <div class="contact-link-icon">💼</div>
-            LinkedIn
-          </a>
-          <a href="https://github.com/adarsh-maurya" target="_blank" rel="noopener" class="contact-link">
-            <div class="contact-link-icon">🐙</div>
-            GitHub
-          </a>
-          <a href="https://leetcode.com/adarsh-maurya" target="_blank" rel="noopener" class="contact-link">
-            <div class="contact-link-icon">⚡</div>
-            LeetCode
-          </a>
+        <div class="hero-actions reveal">
+          <a href="#projects" class="btn-primary">View My Work</a>
+          <a href="#contact" class="btn-ghost">Let's Talk →</a>
+        </div>
+        <div class="hero-stats reveal">
+          <div class="stat">
+            <span class="stat-num">1200+</span>
+            <span class="stat-label">DSA Problems</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num">1782</span>
+            <span class="stat-label">LeetCode Rating</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num">5+</span>
+            <span class="stat-label">Projects Built</span>
+          </div>
         </div>
       </div>
-      <div class="contact-form-side fade-up">
-        <form id="contact-form" novalidate>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="f-name">Name</label>
-              <input class="form-input" type="text" id="f-name" placeholder="Your name" required />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="f-email">Email</label>
-              <input class="form-input" type="email" id="f-email" placeholder="your@email.com" required />
+      <div class="hero-visual reveal">
+        <div class="avatar-ring">
+          <div class="avatar-inner">
+            <span class="avatar-emoji">👨‍💻</span>
+          </div>
+          <svg class="ring-svg" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="url(#ringGrad)" stroke-width="1.5" stroke-dasharray="6 4" class="ring-dashed"/>
+            <defs>
+              <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00c8ff"/>
+                <stop offset="100%" stop-color="#7b2fff"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="orbit-dot orbit-1"></div>
+          <div class="orbit-dot orbit-2"></div>
+          <div class="orbit-dot orbit-3"></div>
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-label reveal">About Me</div>
+        <h2 class="section-title reveal">Building things that matter</h2>
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>I'm a Software Engineer at <strong>Ksolves India Limited</strong>, working on high-performance connectors and Odoo customization. My journey spans ML pipelines, full-stack development, and competitive programming.</p>
+            <p>With a B.Tech in Computer Science from <strong>IET Bundelkhand University</strong> (8.39 CGPA), I bring a strong foundation in algorithms, system design, and machine learning to every project.</p>
+            <p>When I'm not coding, I'm pushing my LeetCode rating higher — currently in the <strong>top 8% globally</strong>.</p>
+            <div class="about-links">
+              <a href="mailto:adarshmsd1@gmail.com" class="link-chip">✉️ adarshmsd1@gmail.com</a>
+              <a href="tel:7071161116" class="link-chip">📞 7071161116</a>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="f-subject">Subject</label>
-            <input class="form-input" type="text" id="f-subject" placeholder="What's this about?" />
+          <div class="about-cards reveal">
+            <div class="mini-card glass">
+              <span class="mini-icon">🎓</span>
+              <div>
+                <strong>B.Tech CSE</strong>
+                <span>IET Bundelkhand University</span>
+                <span class="tag">8.39 CGPA · 2024</span>
+              </div>
+            </div>
+            <div class="mini-card glass">
+              <span class="mini-icon">💼</span>
+              <div>
+                <strong>Software Engineer</strong>
+                <span>Ksolves India Limited</span>
+                <span class="tag">Jun 2024 – Present</span>
+              </div>
+            </div>
+            <div class="mini-card glass">
+              <span class="mini-icon">📍</span>
+              <div>
+                <strong>Location</strong>
+                <span>Noida, India</span>
+                <span class="tag">Open to Remote</span>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="f-message">Message</label>
-            <textarea class="form-textarea" id="f-message" placeholder="Tell me about the project, role, or idea..." required></textarea>
-          </div>
-          <button type="submit" class="form-submit">Send message →</button>
-          <div class="toast" id="toast">
-            <span>✓</span> Message received! I'll get back to you soon.
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- ========== FOOTER ========== -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <p class="footer-text">© 2025 Adarsh Maurya. Crafted with HTML, CSS &amp; JS.</p>
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+      <div class="container">
+        <div class="section-label reveal">Technical Skills</div>
+        <h2 class="section-title reveal">What I work with</h2>
+        <div class="skills-grid">
+
+          <div class="skill-category glass reveal" data-popup="languages">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">⚡</span>
+              <h3>Languages</h3>
+            </div>
+            <div class="skill-pills">
+              <span class="pill">C++</span>
+              <span class="pill">Python</span>
+              <span class="pill">JavaScript</span>
+              <span class="pill">SQL</span>
+            </div>
+            <div class="skill-bar-row">
+              <span>Proficiency</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+            </div>
+          </div>
+
+          <div class="skill-category glass reveal" data-popup="ml">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">🧠</span>
+              <h3>Machine Learning</h3>
+            </div>
+            <div class="skill-pills">
+              <span class="pill">Scikit-Learn</span>
+              <span class="pill">TensorFlow</span>
+              <span class="pill">PyTorch</span>
+              <span class="pill">BERT/GPT</span>
+              <span class="pill">NLP</span>
+              <span class="pill">CV</span>
+            </div>
+            <div class="skill-bar-row">
+              <span>Proficiency</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+            </div>
+          </div>
+
+          <div class="skill-category glass reveal" data-popup="web">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">🌐</span>
+              <h3>Web Development</h3>
+            </div>
+            <div class="skill-pills">
+              <span class="pill">Django</span>
+              <span class="pill">DRF</span>
+              <span class="pill">Flask</span>
+              <span class="pill">React</span>
+              <span class="pill">jQuery</span>
+            </div>
+            <div class="skill-bar-row">
+              <span>Proficiency</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+            </div>
+          </div>
+
+          <div class="skill-category glass reveal" data-popup="data">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">📊</span>
+              <h3>Data Science</h3>
+            </div>
+            <div class="skill-pills">
+              <span class="pill">Pandas</span>
+              <span class="pill">NumPy</span>
+              <span class="pill">PowerBI</span>
+              <span class="pill">Tableau</span>
+              <span class="pill">SciPy</span>
+            </div>
+            <div class="skill-bar-row">
+              <span>Proficiency</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="82"></div></div>
+            </div>
+          </div>
+
+          <div class="skill-category glass reveal" data-popup="db">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">🗄️</span>
+              <h3>Databases</h3>
+            </div>
+            <div class="skill-pills">
+              <span class="pill">PostgreSQL</span>
+              <span class="pill">MongoDB</span>
+              <span class="pill">MySQL</span>
+            </div>
+            <div class="skill-bar-row">
+              <span>Proficiency</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+            </div>
+          </div>
+
+          <div class="skill-category glass reveal" data-popup="cs">
+            <div class="skill-cat-header">
+              <span class="skill-cat-icon">📐</span>
+              <h3>CS Fundamentals</h3>
+            </div>
+            <div class="skill-pills">
+              <span class="pill">DSA</span>
+              <span class="pill">OOPS</span>
+              <span class="pill">DBMS</span>
+              <span class="pill">OS</span>
+              <span class="pill">CN</span>
+            </div>
+            <div class="skill-bar-row">
+              <span>Proficiency</span>
+              <div class="skill-bar"><div class="skill-fill" data-width="92"></div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section">
+      <div class="container">
+        <div class="section-label reveal">Work History</div>
+        <h2 class="section-title reveal">Experience</h2>
+        <div class="timeline">
+
+          <div class="timeline-item reveal" data-index="0">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass exp-card" data-exp="ksolves">
+              <div class="exp-header">
+                <div>
+                  <h3>Software Engineer</h3>
+                  <span class="company">Ksolves India Limited</span>
+                </div>
+                <div class="exp-meta">
+                  <span class="date-badge">Jun 2024 – Present</span>
+                  <span class="loc-badge">Noida, India</span>
+                </div>
+              </div>
+              <ul class="exp-points">
+                <li>Led client-facing delivery achieving <strong>90% improvement</strong> in data import performance via Python + PostgreSQL.</li>
+                <li>Specialized in Odoo development with ORM, Odoo Owl, JavaScript, and QWeb customization.</li>
+                <li>Improved user engagement and sales through optimized website projects.</li>
+              </ul>
+              <div class="exp-tags">
+                <span class="etag">Python</span><span class="etag">PostgreSQL</span><span class="etag">Odoo</span><span class="etag">JavaScript</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal" data-index="1">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass exp-card" data-exp="kiwi">
+              <div class="exp-header">
+                <div>
+                  <h3>Data Science Intern</h3>
+                  <span class="company">Kiwi DS Consulting</span>
+                </div>
+                <div class="exp-meta">
+                  <span class="date-badge">Mar 2024 – May 2024</span>
+                  <span class="loc-badge">Gurugram</span>
+                </div>
+              </div>
+              <ul class="exp-points">
+                <li>Delivered insights through data analytics and ML models for consulting projects.</li>
+                <li>Built interactive Power BI dashboards enabling real-time decision-making.</li>
+                <li>Executed complex SQL queries for data extraction and manipulation.</li>
+              </ul>
+              <div class="exp-tags">
+                <span class="etag">Python</span><span class="etag">Power BI</span><span class="etag">SQL</span><span class="etag">ML</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal" data-index="2">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass exp-card" data-exp="iitk">
+              <div class="exp-header">
+                <div>
+                  <h3>Software Engineer Intern</h3>
+                  <span class="company">IIT Kanpur</span>
+                </div>
+                <div class="exp-meta">
+                  <span class="date-badge">Sep 2023 – Jan 2024</span>
+                  <span class="loc-badge">Hybrid</span>
+                </div>
+              </div>
+              <ul class="exp-points">
+                <li>Built virtual lab simulations using 7–8 technologies (CSS, JS, Figma, Vectary, Webflow, jQuery).</li>
+                <li>Fine-tuned <code>Helsinki-NLP/opus-mt-en-hi</code> transformer achieving <strong>95%+ accuracy</strong> on EN→HI translation.</li>
+              </ul>
+              <div class="exp-tags">
+                <span class="etag">NLP</span><span class="etag">Transformers</span><span class="etag">Webflow</span><span class="etag">JavaScript</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal" data-index="3">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass exp-card" data-exp="ineuron">
+              <div class="exp-header">
+                <div>
+                  <h3>Machine Learning Intern</h3>
+                  <span class="company">iNeuron.ai</span>
+                </div>
+                <div class="exp-meta">
+                  <span class="date-badge">May 2023 – Jul 2023</span>
+                  <span class="loc-badge">Remote</span>
+                </div>
+              </div>
+              <ul class="exp-points">
+                <li>End-to-end phishing domain prediction ML project on a dataset of <strong>88,647 records</strong>, 111 features.</li>
+                <li>Achieved <strong>95.09% accuracy</strong> using Random Forest + GridSearchCV; deployed on AWS Elastic Beanstalk.</li>
+              </ul>
+              <div class="exp-tags">
+                <span class="etag">ML</span><span class="etag">Flask</span><span class="etag">AWS</span><span class="etag">Scikit-Learn</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal" data-index="4">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content glass exp-card" data-exp="tigbar">
+              <div class="exp-header">
+                <div>
+                  <h3>SDE Intern</h3>
+                  <span class="company">Tigbar</span>
+                </div>
+                <div class="exp-meta">
+                  <span class="date-badge">Oct 2022 – Dec 2022</span>
+                  <span class="loc-badge">Remote</span>
+                </div>
+              </div>
+              <ul class="exp-points">
+                <li>Developed custom Django/DRF middlewares and tested REST APIs.</li>
+                <li>Load testing with Locust → <strong>35% improvement</strong> in API response times.</li>
+                <li>Share links + bug fixes → <strong>20% increase</strong> in daily active users.</li>
+              </ul>
+              <div class="exp-tags">
+                <span class="etag">Django</span><span class="etag">DRF</span><span class="etag">Redis</span><span class="etag">Celery</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-label reveal">What I've Built</div>
+        <h2 class="section-title reveal">Projects</h2>
+        <div class="projects-grid">
+
+          <div class="project-card glass reveal" data-project="workstation">
+            <div class="project-header">
+              <div class="project-icon">🏗️</div>
+              <div class="project-links">
+                <a href="#" class="proj-link" title="GitHub">⌥</a>
+              </div>
+            </div>
+            <h3>Workstation</h3>
+            <p>Platform for founders to collaborate on projects, find co-founders, and turn startup ideas into reality.</p>
+            <div class="project-tags">
+              <span class="ptag">Dec 2025 – Present</span>
+            </div>
+            <button class="project-more" data-project="workstation">View Details →</button>
+          </div>
+
+          <div class="project-card glass reveal featured" data-project="linkpad">
+            <div class="project-badge">Featured</div>
+            <div class="project-header">
+              <div class="project-icon">🔗</div>
+              <div class="project-links">
+                <a href="#" class="proj-link" title="GitHub">⌥</a>
+              </div>
+            </div>
+            <h3>LinkPad</h3>
+            <p>Alumni Portal with a fake information classifier using Bi-directional RNN (92%+ accuracy) + 10+ features.</p>
+            <div class="project-tags">
+              <span class="ptag">Django</span>
+              <span class="ptag">ReactJS</span>
+              <span class="ptag">NLP</span>
+              <span class="ptag">Bi-RNN</span>
+            </div>
+            <button class="project-more" data-project="linkpad">View Details →</button>
+          </div>
+
+          <div class="project-card glass reveal" data-project="antidoping">
+            <div class="project-header">
+              <div class="project-icon">🏅</div>
+              <div class="project-links">
+                <a href="#" class="proj-link" title="GitHub">⌥</a>
+              </div>
+            </div>
+            <h3>Anti-Doping WebApp</h3>
+            <p>Web app for Ministry of Youth Affairs & Sports, India. Built for Smart India Hackathon 2022 with 10+ features.</p>
+            <div class="project-tags">
+              <span class="ptag">Django</span>
+              <span class="ptag">MongoDB</span>
+              <span class="ptag">REST API</span>
+              <span class="ptag">SIH 2022</span>
+            </div>
+            <button class="project-more" data-project="antidoping">View Details →</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="section">
+      <div class="container">
+        <div class="section-label reveal">Recognition</div>
+        <h2 class="section-title reveal">Achievements</h2>
+        <div class="achievements-grid">
+
+          <div class="achievement-card glass reveal">
+            <div class="ach-icon">🏆</div>
+            <h3>LeetCode Top 8%</h3>
+            <p>1782 rating on LeetCode, with 1200+ DSA problems solved across LeetCode, HackerRank, GFG, and Codeforces.</p>
+            <span class="ach-tag">Competitive Programming</span>
+          </div>
+
+          <div class="achievement-card glass reveal">
+            <div class="ach-icon">🎤</div>
+            <h3>IDE Boot Camp 2023</h3>
+            <p>Presented an AI/ML in Education startup idea at NITTTR Chandigarh, Ministry of Education, Government of India.</p>
+            <span class="ach-tag">Innovation · National</span>
+          </div>
+
+          <div class="achievement-card glass reveal">
+            <div class="ach-icon">📝</div>
+            <h3>GATE DS 2025</h3>
+            <p>Ranked 5646 in GATE Data Science 2025. Also ranked 2nd among 50,000+ students in PW's Data Science Masters course.</p>
+            <span class="ach-tag">Academic · Rank 2 / 50k+</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-label reveal">Get In Touch</div>
+        <h2 class="section-title reveal">Let's build something<br><span class="accent-gradient">together</span></h2>
+        <p class="contact-sub reveal">Open to full-time roles, freelance projects, and interesting collaborations.</p>
+
+        <div class="contact-layout">
+          <div class="contact-info reveal">
+            <a href="mailto:adarshmsd1@gmail.com" class="contact-item glass">
+              <span class="ci-icon">✉️</span>
+              <div>
+                <strong>Email</strong>
+                <span>adarshmsd1@gmail.com</span>
+              </div>
+            </a>
+            <a href="tel:7071161116" class="contact-item glass">
+              <span class="ci-icon">📞</span>
+              <div>
+                <strong>Phone</strong>
+                <span>+91 7071161116</span>
+              </div>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-item glass">
+              <span class="ci-icon">💼</span>
+              <div>
+                <strong>LinkedIn</strong>
+                <span>linkedin.com/in/adarsh</span>
+              </div>
+            </a>
+            <a href="https://github.com/adarshmsd1" target="_blank" rel="noopener" class="contact-item glass">
+              <span class="ci-icon">🐙</span>
+              <div>
+                <strong>GitHub</strong>
+                <span>github.com/adarshmsd1</span>
+              </div>
+            </a>
+          </div>
+
+          <form class="contact-form glass reveal" id="contact-form" novalidate>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary btn-full" id="submit-btn">
+              <span class="btn-text">Send Message</span>
+              <span class="btn-icon">→</span>
+            </button>
+            <div class="form-success" id="form-success">
+              <span>✅ Message sent! I'll get back to you soon.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2025 Adarsh Maurya. Built with care.</span>
       <div class="footer-links">
-        <a href="#hero">Back to top ↑</a>
-        <a href="mailto:adarshmsd1@gmail.com">Email</a>
-        <a href="https://github.com/adarsh-maurya" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/adarshmsd1" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://leetcode.com" target="_blank" rel="noopener">LeetCode</a>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
-<script src="script.js"></script>
+  <!-- Project Detail Popup -->
+  <div class="popup-overlay" id="popup-overlay">
+    <div class="popup glass" id="popup">
+      <button class="popup-close" id="popup-close">✕</button>
+      <div class="popup-body" id="popup-body"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
