@@ -335,11 +335,15 @@ function openModal(data){
 function closeModal(){overlay.classList.remove('open');document.body.style.overflow='';}
 
 document.querySelectorAll('[data-modal]').forEach(el=>{
-  el.addEventListener('click',()=>openModal({
-    icon:el.dataset.icon,title:el.dataset.title,subtitle:el.dataset.subtitle||'',
-    meta:el.dataset.meta||'',desc:el.dataset.desc||'',
-    points:el.dataset.points||'',tech:el.dataset.tech||''
-  }));
+  el.addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    openModal({
+      icon:el.dataset.icon,title:el.dataset.title,subtitle:el.dataset.subtitle||'',
+      meta:el.dataset.meta||'',desc:el.dataset.desc||'',
+      points:el.dataset.points||'',tech:el.dataset.tech||''
+    });
+  });
 });
 modalClose.addEventListener('click',closeModal);
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
