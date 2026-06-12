@@ -12,6 +12,9 @@
 </head>
 <body>
 
+<!-- Interactive background canvas -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
 <!-- ========== MODAL OVERLAY ========== -->
 <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-box">
@@ -41,6 +44,10 @@
       </svg>
     </a>
     <ul class="nav-links" id="nav-links">
+      <li class="nav-mobile-header">
+        <span class="nav-mobile-brand">AM<span>.</span></span>
+        <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Close menu">✕</button>
+      </li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
