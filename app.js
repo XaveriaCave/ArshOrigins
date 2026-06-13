@@ -309,6 +309,165 @@
 })();
 
 /* ============================================================
+   2. BIG BANG INTRO — PAGE LOAD EXPLOSION
+   ============================================================ */
+(function initBigBang() {
+
+  /* Spark colours */
+  const SPARK_COLORS = [
+    '#00c8ff','#00e5ff','#7b2fff','#ffffff',
+    '#00ffc8','#a78bfa','#38bdf8','#e879f9',
+  ];
+
+  /* Create spark particles that fly outward from center */
+  function launchSparks() {
+    const count = 52;
+    const cx = window.innerWidth  / 2;
+    const cy = window.innerHeight / 2;
+
+    for (let i = 0; i < count; i++) {
+      const angle    = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+      const distance = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.52 + 80;
+      const tx       = Math.cos(angle) * distance;
+      const ty       = Math.sin(angle) * distance;
+      const color    = SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)];
+      const dur      = (Math.random() * 0.5 + 0.7).toFixed(2) + 's';
+      const delay    = (Math.random() * 0.18).toFixed(2) + 's';
+      const size     = Math.random() * 3 + 1.5;
+
+      const spark = document.createElement('div');
+      spark.className = 'bb-spark';
+      spark.style.cssText = `
+        --tx: ${tx}px;
+        --ty: ${ty}px;
+        --dur: ${dur};
+        --delay: ${delay};
+        background: ${color};
+        box-shadow: 0 0 ${size * 3}px ${color};
+        width: ${size}px;
+        height: ${size}px;
+        left: ${cx}px;
+        top: ${cy}px;
+      `;
+      document.body.appendChild(spark);
+      /* Remove after animation */
+      setTimeout(() => spark.remove(),
+        (parseFloat(dur) + parseFloat(delay)) * 1000 + 100);
+    }
+
+    /* A few longer "streak" sparks */
+    for (let i = 0; i < 14; i++) {
+      const angle    = Math.random() * Math.PI * 2;
+      const distance = Math.random() * Math.min(window.innerWidth, window.innerHeight) * 0.7 + 120;
+      const tx       = Math.cos(angle) * distance;
+      const ty       = Math.sin(angle) * distance;
+      const color    = SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)];
+      const dur      = (Math.random() * 0.4 + 0.9).toFixed(2) + 's';
+      const delay    = (Math.random() * 0.1).toFixed(2) + 's';
+
+      const streak = document.createElement('div');
+      streak.className = 'bb-spark';
+      streak.style.cssText = `
+        --tx: ${tx}px;
+        --ty: ${ty}px;
+        --dur: ${dur};
+        --delay: ${delay};
+        background: linear-gradient(${Math.atan2(ty,tx)}rad, ${color}, transparent);
+        box-shadow: 0 0 6px ${color};
+        width: ${Math.abs(tx * 0.12) + 8}px;
+        height: 1.5px;
+        border-radius: 99px;
+        left: ${cx}px;
+        top: ${cy}px;
+        transform-origin: left center;
+      `;
+      document.body.appendChild(streak);
+      setTimeout(() => streak.remove(),
+        (parseFloat(dur) + parseFloat(delay)) * 1000 + 100);
+    }
+  }
+
+  /* Hero elements with their directions and stagger delays */
+  const HERO_SEQUENCE = [
+    { sel: '.hero-badge',   cls: 'bb-from-top',    delay: 0.55, dur: 0.65 },
+    { sel: '.hero-title',   cls: 'bb-from-center',  delay: 0.70, dur: 0.90 },
+    { sel: '.hero-role',    cls: 'bb-from-left',    delay: 0.92, dur: 0.65 },
+    { sel: '.hero-desc',    cls: 'bb-from-left',    delay: 1.06, dur: 0.65 },
+    { sel: '.hero-actions', cls: 'bb-from-bottom',  delay: 1.18, dur: 0.70 },
+    { sel: '.hero-stats',   cls: 'bb-from-bottom',  delay: 1.30, dur: 0.65 },
+    { sel: '.hero-visual',  cls: 'bb-from-right',   delay: 0.78, dur: 0.90 },
+    { sel: '.scroll-hint',  cls: 'bb-scale-pop',    delay: 1.55, dur: 0.55 },
+  ];
+
+  function triggerHeroSequence() {
+    HERO_SEQUENCE.forEach(({ sel, cls, delay, dur }) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+
+      /* Set CSS vars for timing */
+      el.style.setProperty('--bb-delay', delay + 's');
+      el.style.setProperty('--bb-dur',   dur   + 's');
+
+      /* Kick off the animation */
+      setTimeout(() => {
+        el.classList.add('bb-in');
+
+        /* After animation ends, hand off to the normal reveal system */
+        const totalMs = (delay + dur + 0.05) * 1000;
+        setTimeout(() => {
+          el.classList.add('bb-done', 'visible');
+          el.classList.remove('bb-in');
+        }, (dur + 0.1) * 1000);
+
+      }, delay * 1000);
+    });
+  }
+
+  /* Also burst suminagashi rings from center on load */
+  function burstInkRings() {
+    const cx = window.innerWidth  / 2;
+    const cy = window.innerHeight / 2;
+    /* Fire 6 rings rapidly from center at t=0.3s */
+    setTimeout(() => {
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+          /* Dispatch a synthetic click at center to trigger suminagashi spawns */
+          const e = new MouseEvent('click', {
+            clientX: cx + (Math.random() - 0.5) * 60,
+            clientY: cy + (Math.random() - 0.5) * 60,
+            bubbles: true,
+          });
+          document.dispatchEvent(e);
+        }, i * 90);
+      }
+    }, 300);
+  }
+
+  /* Orchestrate on DOMContentLoaded */
+  function run() {
+    launchSparks();
+    burstInkRings();
+    triggerHeroSequence();
+
+    /* Remove overlay elements from DOM after they fade */
+    setTimeout(() => {
+      ['bigbang-overlay','bigbang-ring','bigbang-ring-2','bigbang-ring-3']
+        .forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.remove();
+        });
+    }, 2200);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+
+})();
+
+/* ============================================================
    2. CLICK / TOUCH RIPPLE
    ============================================================ */
 document.addEventListener('click', function(e) {
