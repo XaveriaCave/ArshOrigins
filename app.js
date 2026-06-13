@@ -72,21 +72,26 @@
         ? Math.random() * 1.1 + 0.7
         : Math.random() * 0.55 + 0.18;
       const isLight = document.documentElement.dataset.theme === 'light';
+      /* thinner, more faded — even lighter for ambient rings */
       this.alpha  = isClick
-        ? (isLight ? 0.80 : 0.55)
-        : (isLight ? Math.random() * 0.45 + 0.28 : Math.random() * 0.28 + 0.10);
+        ? (isLight ? 0.42 : 0.28)
+        : (isLight ? Math.random() * 0.18 + 0.10 : Math.random() * 0.13 + 0.04);
       this.lineW  = isClick
-        ? Math.random() * 1.8 + 0.8
-        : (isLight ? Math.random() * 1.8 + 0.8 : Math.random() * 1.2 + 0.3);
+        ? Math.random() * 0.9 + 0.4
+        : Math.random() * 0.55 + 0.15;
       this.hue    = col.h + (Math.random() - 0.5) * 22;
       this.sat    = col.s;
       this.lit    = col.l;
       this.dead   = false;
-      /* deformation: each ring has N control points that drift independently */
-      this.N      = Math.floor(Math.random() * 6 + 8);   // 8–13 control pts
+      /* MORE control points + higher amplitude = wavy, curvaceous silhouette */
+      this.N      = Math.floor(Math.random() * 8 + 14);  // 14–21 pts
       this.phases = Array.from({ length: this.N }, () => Math.random() * Math.PI * 2);
-      this.freqs  = Array.from({ length: this.N }, () => Math.random() * 0.025 + 0.006);
-      this.amps   = Array.from({ length: this.N }, () => Math.random() * 0.22 + 0.04);
+      this.freqs  = Array.from({ length: this.N }, () => Math.random() * 0.018 + 0.004);
+      /* bigger amps = more pronounced waves */
+      this.amps   = Array.from({ length: this.N }, () => Math.random() * 0.38 + 0.10);
+      /* each point also has a secondary fast wobble layered on top */
+      this.waveFreqs = Array.from({ length: this.N }, () => Math.random() * 0.04 + 0.012);
+      this.waveAmps  = Array.from({ length: this.N }, () => Math.random() * 0.12 + 0.03);
       /* drift velocity */
       this.dvx    = (Math.random() - 0.5) * 0.14;
       this.dvy    = (Math.random() - 0.5) * 0.10;
@@ -95,33 +100,68 @@
     update(t) {
       if (this.dead) return;
       this.r += this.speed;
-      /* advance deformation phases */
-      for (let i = 0; i < this.N; i++) this.phases[i] += this.freqs[i];
-      /* drift centre with the velocity field */
+      for (let i = 0; i < this.N; i++) {
+        this.phases[i]    += this.freqs[i];
+        /* secondary wobble phases advance faster */
+        // (stored inline — secondary phase = phases[i] * 2.3, no extra array needed)
+      }
       const { vx, vy } = fieldVelocity(this.cx, this.cy, t);
       this.cx += vx * 0.38 + this.dvx;
       this.cy += vy * 0.38 + this.dvy;
-      /* fade near death */
       const life = this.r / this.maxR;
-      if (life > 0.72) this.alpha *= 0.992;
-      if (this.r >= this.maxR || this.alpha < 0.004) this.dead = true;
+      if (life > 0.65) this.alpha *= 0.990;
+      if (this.r >= this.maxR || this.alpha < 0.003) this.dead = true;
     }
 
     draw(t) {
       if (this.dead || this.r <= 0) return;
+
+      /* Build points — use cubic bezier curves through them so the
+         outline is genuinely smooth and curvaceous, not jagged polygons */
       const pts = this.N;
-      ctx.beginPath();
-      for (let i = 0; i <= pts; i++) {
+      const points = [];
+
+      for (let i = 0; i < pts; i++) {
         const angle = (i / pts) * Math.PI * 2;
-        /* radial deformation: blend multiple harmonics */
+
+        /* primary slow deformation */
         let rDelta = 0;
         for (let k = 0; k < pts; k++) {
           rDelta += Math.sin(angle * (k + 1) + this.phases[k]) * this.amps[k];
         }
-        const r = this.r * (1 + rDelta * (0.5 + this.r / this.maxR * 0.5));
-        const px = this.cx + Math.cos(angle) * r;
-        const py = this.cy + Math.sin(angle) * r;
-        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        /* secondary faster ripple layered on top */
+        for (let k = 0; k < pts; k++) {
+          rDelta += Math.sin(angle * (k + 2) * 1.7 + this.phases[k] * 2.3 + t * 0.6)
+                    * this.waveAmps[k] * 0.5;
+        }
+
+        const growth = 0.45 + this.r / this.maxR * 0.55;
+        const r = this.r * (1 + rDelta * growth);
+        points.push({
+          x: this.cx + Math.cos(angle) * r,
+          y: this.cy + Math.sin(angle) * r,
+        });
+      }
+
+      /* Draw as a closed catmull-rom-style smooth curve using
+         cubic beziers between each consecutive pair of points */
+      ctx.beginPath();
+      const n = points.length;
+      for (let i = 0; i < n; i++) {
+        const p0 = points[(i - 1 + n) % n];
+        const p1 = points[i];
+        const p2 = points[(i + 1) % n];
+        const p3 = points[(i + 2) % n];
+
+        if (i === 0) ctx.moveTo(p1.x, p1.y);
+
+        /* Catmull-Rom → cubic bezier control points */
+        const tension = 0.5;
+        const cp1x = p1.x + (p2.x - p0.x) * tension / 3;
+        const cp1y = p1.y + (p2.y - p0.y) * tension / 3;
+        const cp2x = p2.x - (p3.x - p1.x) * tension / 3;
+        const cp2y = p2.y - (p3.y - p1.y) * tension / 3;
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
       }
       ctx.closePath();
 
