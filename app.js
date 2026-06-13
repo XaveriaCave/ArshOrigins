@@ -27,12 +27,12 @@
       { h: 250, s: 70,  l: 65 },  // lavender
     ],
     light: [
-      { h: 195, s: 80,  l: 40 },
-      { h: 210, s: 70,  l: 50 },
-      { h: 270, s: 60,  l: 45 },
-      { h: 220, s: 55,  l: 35 },
-      { h: 185, s: 65,  l: 38 },
-      { h: 250, s: 55,  l: 55 },
+      { h: 195, s: 100, l: 32 },  // deep cyan
+      { h: 210, s: 95,  l: 28 },  // deep blue
+      { h: 270, s: 85,  l: 32 },  // deep violet
+      { h: 220, s: 90,  l: 25 },  // navy
+      { h: 185, s: 90,  l: 28 },  // deep teal
+      { h: 250, s: 80,  l: 35 },  // indigo
     ],
   };
 
@@ -71,10 +71,13 @@
       this.speed  = isClick
         ? Math.random() * 1.1 + 0.7
         : Math.random() * 0.55 + 0.18;
-      this.alpha  = isClick ? 0.55 : Math.random() * 0.28 + 0.10;
+      const isLight = document.documentElement.dataset.theme === 'light';
+      this.alpha  = isClick
+        ? (isLight ? 0.80 : 0.55)
+        : (isLight ? Math.random() * 0.45 + 0.28 : Math.random() * 0.28 + 0.10);
       this.lineW  = isClick
         ? Math.random() * 1.8 + 0.8
-        : Math.random() * 1.2 + 0.3;
+        : (isLight ? Math.random() * 1.8 + 0.8 : Math.random() * 1.2 + 0.3);
       this.hue    = col.h + (Math.random() - 0.5) * 22;
       this.sat    = col.s;
       this.lit    = col.l;

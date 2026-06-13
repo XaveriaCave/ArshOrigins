@@ -78,7 +78,7 @@ input, textarea { font-family: inherit; }
 }
 
 [data-theme="light"] #bg-canvas {
-  opacity: 0.38;
+  opacity: 0.85;
 }
 
 /* ---------- SCROLLBAR ---------- */
