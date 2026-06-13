@@ -6,175 +6,263 @@
 'use strict';
 
 /* ============================================================
-   1. CANVAS INTERACTIVE BACKGROUND
+   1. SUMINAGASHI — Japanese Ink Marbling Background
+   Concentric ink rings drift, deform, and swirl on water.
+   Click / touch drops a new ink ring at that point.
    ============================================================ */
-(function initCanvas() {
+(function initSuminagashi() {
+
   const canvas = document.getElementById('bg-canvas');
   const ctx    = canvas.getContext('2d');
-  let W, H, particles = [], mouse = { x: -1000, y: -1000 };
+  let W, H;
 
-  const PARTICLE_COUNT = 90;
-  const CONNECT_DIST   = 130;
-  const MOUSE_REPEL    = 110;
-  const ACCENT         = '0, 200, 255';
-  const PURPLE         = '123, 47, 255';
+  /* ---- colour palettes for dark / light ---- */
+  const PALETTES = {
+    dark: [
+      { h: 195, s: 100, l: 50 },  // cyan
+      { h: 210, s: 90,  l: 60 },  // sky blue
+      { h: 270, s: 80,  l: 55 },  // violet
+      { h: 220, s: 70,  l: 40 },  // deep blue
+      { h: 185, s: 85,  l: 45 },  // teal
+      { h: 250, s: 70,  l: 65 },  // lavender
+    ],
+    light: [
+      { h: 195, s: 80,  l: 40 },
+      { h: 210, s: 70,  l: 50 },
+      { h: 270, s: 60,  l: 45 },
+      { h: 220, s: 55,  l: 35 },
+      { h: 185, s: 65,  l: 38 },
+      { h: 250, s: 55,  l: 55 },
+    ],
+  };
 
+  function getPalette() {
+    return document.documentElement.dataset.theme === 'light'
+      ? PALETTES.light : PALETTES.dark;
+  }
+
+  /* ---- ring pool ---- */
+  const rings = [];
+  const MAX_RINGS = 28;
+
+  /* Velocity field — a slow 2-D curl flow distorts all rings */
+  let fieldT = 0;
+
+  function fieldVelocity(x, y, t) {
+    const nx = x / W, ny = y / H;
+    const vx = Math.sin(ny * Math.PI * 2 + t * 0.4) * 0.38
+             + Math.cos(nx * Math.PI * 1.3 + t * 0.27) * 0.22;
+    const vy = Math.cos(nx * Math.PI * 2 + t * 0.35) * 0.38
+             + Math.sin(ny * Math.PI * 1.7 + t * 0.31) * 0.22;
+    return { vx, vy };
+  }
+
+  /* ---- Ring class ---- */
+  class InkRing {
+    constructor(x, y, isClick) {
+      const pal   = getPalette();
+      const col   = pal[Math.floor(Math.random() * pal.length)];
+      this.cx     = x;
+      this.cy     = y;
+      this.r      = isClick ? 1 : Math.random() * 60 + 10;
+      this.maxR   = isClick
+        ? Math.random() * 320 + 180
+        : Math.random() * 280 + 120;
+      this.speed  = isClick
+        ? Math.random() * 1.1 + 0.7
+        : Math.random() * 0.55 + 0.18;
+      this.alpha  = isClick ? 0.55 : Math.random() * 0.28 + 0.10;
+      this.lineW  = isClick
+        ? Math.random() * 1.8 + 0.8
+        : Math.random() * 1.2 + 0.3;
+      this.hue    = col.h + (Math.random() - 0.5) * 22;
+      this.sat    = col.s;
+      this.lit    = col.l;
+      this.dead   = false;
+      /* deformation: each ring has N control points that drift independently */
+      this.N      = Math.floor(Math.random() * 6 + 8);   // 8–13 control pts
+      this.phases = Array.from({ length: this.N }, () => Math.random() * Math.PI * 2);
+      this.freqs  = Array.from({ length: this.N }, () => Math.random() * 0.025 + 0.006);
+      this.amps   = Array.from({ length: this.N }, () => Math.random() * 0.22 + 0.04);
+      /* drift velocity */
+      this.dvx    = (Math.random() - 0.5) * 0.14;
+      this.dvy    = (Math.random() - 0.5) * 0.10;
+    }
+
+    update(t) {
+      if (this.dead) return;
+      this.r += this.speed;
+      /* advance deformation phases */
+      for (let i = 0; i < this.N; i++) this.phases[i] += this.freqs[i];
+      /* drift centre with the velocity field */
+      const { vx, vy } = fieldVelocity(this.cx, this.cy, t);
+      this.cx += vx * 0.38 + this.dvx;
+      this.cy += vy * 0.38 + this.dvy;
+      /* fade near death */
+      const life = this.r / this.maxR;
+      if (life > 0.72) this.alpha *= 0.992;
+      if (this.r >= this.maxR || this.alpha < 0.004) this.dead = true;
+    }
+
+    draw(t) {
+      if (this.dead || this.r <= 0) return;
+      const pts = this.N;
+      ctx.beginPath();
+      for (let i = 0; i <= pts; i++) {
+        const angle = (i / pts) * Math.PI * 2;
+        /* radial deformation: blend multiple harmonics */
+        let rDelta = 0;
+        for (let k = 0; k < pts; k++) {
+          rDelta += Math.sin(angle * (k + 1) + this.phases[k]) * this.amps[k];
+        }
+        const r = this.r * (1 + rDelta * (0.5 + this.r / this.maxR * 0.5));
+        const px = this.cx + Math.cos(angle) * r;
+        const py = this.cy + Math.sin(angle) * r;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+
+      /* iridescent stroke — hue shifts around the ring */
+      const grd = ctx.createConicGradient
+        ? ctx.createConicGradient(0, this.cx, this.cy)
+        : null;
+      if (grd) {
+        const steps = 8;
+        for (let s = 0; s <= steps; s++) {
+          const hShift = this.hue + Math.sin(t * 0.3 + s) * 28;
+          grd.addColorStop(s / steps,
+            `hsla(${hShift}, ${this.sat}%, ${this.lit}%, ${this.alpha})`);
+        }
+        ctx.strokeStyle = grd;
+      } else {
+        ctx.strokeStyle =
+          `hsla(${this.hue}, ${this.sat}%, ${this.lit}%, ${this.alpha})`;
+      }
+      ctx.lineWidth = this.lineW;
+      ctx.stroke();
+    }
+  }
+
+  /* ---- seed the initial rings spread across the canvas ---- */
+  function seedRings() {
+    rings.length = 0;
+    const count = Math.min(MAX_RINGS, Math.floor(W * H / 26000) + 12);
+    for (let i = 0; i < count; i++) {
+      const ring = new InkRing(
+        Math.random() * W,
+        Math.random() * H,
+        false
+      );
+      /* stagger them at random ages so they're not all born together */
+      ring.r = Math.random() * ring.maxR * 0.6;
+      rings.push(ring);
+    }
+  }
+
+  /* ---- spawn on click / touch ---- */
+  function spawnAt(x, y) {
+    /* drop 2–3 nested rings per click, offset slightly — authentic suminagashi
+       uses a single needle dip that produces concentric rings */
+    const count = Math.floor(Math.random() * 2) + 2;
+    for (let i = 0; i < count; i++) {
+      if (rings.length >= MAX_RINGS + 8) rings.shift();
+      const r = new InkRing(
+        x + (Math.random() - 0.5) * 8,
+        y + (Math.random() - 0.5) * 8,
+        true
+      );
+      r.r = i * (8 + Math.random() * 14); // slight stagger
+      rings.push(r);
+    }
+  }
+
+  /* ---- main loop ---- */
+  let raf;
+  function loop() {
+    fieldT += 0.008;
+    ctx.clearRect(0, 0, W, H);
+
+    /* cull dead rings and respawn to maintain pool */
+    for (let i = rings.length - 1; i >= 0; i--) {
+      if (rings[i].dead) {
+        rings.splice(i, 1);
+        /* spawn a replacement somewhere random */
+        const r = new InkRing(Math.random() * W, Math.random() * H, false);
+        r.r = 0;
+        rings.push(r);
+      }
+    }
+
+    /* draw back-to-front so newer / smaller rings stay on top */
+    const sorted = [...rings].sort((a, b) => b.r - a.r);
+    for (const ring of sorted) {
+      ring.update(fieldT);
+      ring.draw(fieldT);
+    }
+
+    raf = requestAnimationFrame(loop);
+  }
+
+  /* ---- resize ---- */
   function resize() {
     W = canvas.width  = window.innerWidth;
     H = canvas.height = window.innerHeight;
   }
 
-  class Particle {
-    constructor() { this.reset(true); }
+  /* ---- event wiring ---- */
+  window.addEventListener('resize', () => { resize(); seedRings(); });
 
-    reset(init) {
-      this.x  = Math.random() * W;
-      this.y  = Math.random() * H;
-      this.vx = (Math.random() - 0.5) * 0.45;
-      this.vy = (Math.random() - 0.5) * 0.45;
-      this.r  = Math.random() * 2.2 + 0.6;
-      this.alpha = Math.random() * 0.5 + 0.15;
-      this.color = Math.random() > 0.6 ? PURPLE : ACCENT;
-      // pulse
-      this.pulseSpeed = Math.random() * 0.025 + 0.008;
-      this.pulsePhase = Math.random() * Math.PI * 2;
-      // bubble-like
-      this.isBubble = Math.random() > 0.82;
-      this.bubbleR  = this.isBubble ? Math.random() * 18 + 8 : 0;
-      if (init) {
-        this.x = Math.random() * W;
-        this.y = Math.random() * H;
-      }
-    }
+  canvas.style.pointerEvents = 'none'; // let clicks pass through to DOM
+  document.addEventListener('click', e => {
+    /* skip clicks on interactive elements */
+    const tag = e.target.tagName;
+    if (['A','BUTTON','INPUT','TEXTAREA','LABEL'].includes(tag)) return;
+    spawnAt(e.clientX, e.clientY);
+  });
 
-    update() {
-      // Repel from mouse
-      const dx = this.x - mouse.x;
-      const dy = this.y - mouse.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < MOUSE_REPEL) {
-        const force = (MOUSE_REPEL - dist) / MOUSE_REPEL;
-        this.x += (dx / dist) * force * 2.4;
-        this.y += (dy / dist) * force * 2.4;
-      }
+  document.addEventListener('touchstart', e => {
+    for (const t of e.touches) spawnAt(t.clientX, t.clientY);
+  }, { passive: true });
 
-      this.x += this.vx;
-      this.y += this.vy;
-      this.pulsePhase += this.pulseSpeed;
-
-      // Wrap edges
-      if (this.x < -20)  this.x = W + 20;
-      if (this.x > W+20) this.x = -20;
-      if (this.y < -20)  this.y = H + 20;
-      if (this.y > H+20) this.y = -20;
-    }
-
-    draw() {
-      const pulse = Math.sin(this.pulsePhase) * 0.3 + 0.7;
-
-      if (this.isBubble) {
-        // Draw bubble
-        const r = this.bubbleR * pulse;
-        const grad = ctx.createRadialGradient(
-          this.x - r * 0.3, this.y - r * 0.3, 0,
-          this.x, this.y, r
-        );
-        grad.addColorStop(0,   `rgba(${this.color}, ${this.alpha * 0.6 * pulse})`);
-        grad.addColorStop(0.6, `rgba(${this.color}, ${this.alpha * 0.1})`);
-        grad.addColorStop(1,   'rgba(0,0,0,0)');
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
-        ctx.fill();
-
-        // Bubble ring
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${this.color}, ${this.alpha * 0.4 * pulse})`;
-        ctx.lineWidth = 0.6;
-        ctx.stroke();
-      } else {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r * pulse, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${this.color}, ${this.alpha * pulse})`;
-        ctx.fill();
-      }
-    }
-  }
-
-  function buildParticles() {
-    particles = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
-  }
-
-  // Animated whirling curves in the background
-  let curveAngle = 0;
-  function drawCurves() {
-    curveAngle += 0.004;
-    for (let i = 0; i < 3; i++) {
-      const phase  = curveAngle + (i * Math.PI * 2) / 3;
-      const cx1    = W * 0.5 + Math.cos(phase) * W * 0.35;
-      const cy1    = H * 0.5 + Math.sin(phase * 1.3) * H * 0.28;
-      const cx2    = W * 0.5 + Math.cos(phase + 1.2) * W * 0.28;
-      const cy2    = H * 0.5 + Math.sin(phase + 1.8) * H * 0.22;
-      const alpha  = 0.025 + Math.sin(phase * 0.7) * 0.01;
-      const color  = i % 2 === 0 ? ACCENT : PURPLE;
-
-      ctx.beginPath();
-      ctx.moveTo(0, H * 0.5);
-      ctx.bezierCurveTo(cx1, cy1, cx2, cy2, W, H * 0.5);
-      ctx.strokeStyle = `rgba(${color}, ${alpha})`;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      // Second whirl
-      ctx.beginPath();
-      ctx.moveTo(W * 0.5, 0);
-      ctx.bezierCurveTo(cx2, cy1, cx1, cy2, W * 0.5, H);
-      ctx.strokeStyle = `rgba(${color}, ${alpha * 0.6})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-  }
-
-  function drawConnections() {
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const d  = Math.sqrt(dx * dx + dy * dy);
-        if (d < CONNECT_DIST) {
-          const alpha = (1 - d / CONNECT_DIST) * 0.18;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(${ACCENT}, ${alpha})`;
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
+  /* gentle mouse-drag stirs the ink */
+  let lastMX = -1, lastMY = -1, dragTimer;
+  document.addEventListener('mousemove', e => {
+    if (lastMX < 0) { lastMX = e.clientX; lastMY = e.clientY; return; }
+    const dx = e.clientX - lastMX, dy = e.clientY - lastMY;
+    const speed = Math.sqrt(dx * dx + dy * dy);
+    if (speed > 22) {
+      /* nudge nearby ring centres along the cursor path */
+      for (const ring of rings) {
+        const rdx = ring.cx - e.clientX, rdy = ring.cy - e.clientY;
+        const d = Math.sqrt(rdx * rdx + rdy * rdy);
+        if (d < 180) {
+          const push = (180 - d) / 180 * 0.9;
+          ring.cx += dx * push * 0.18;
+          ring.cy += dy * push * 0.18;
         }
       }
     }
-  }
-
-  function loop() {
-    ctx.clearRect(0, 0, W, H);
-    drawCurves();
-    drawConnections();
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(loop);
-  }
-
-  window.addEventListener('resize', () => { resize(); buildParticles(); });
-  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  window.addEventListener('touchmove', e => {
-    mouse.x = e.touches[0].clientX;
-    mouse.y = e.touches[0].clientY;
+    lastMX = e.clientX; lastMY = e.clientY;
+    clearTimeout(dragTimer);
+    dragTimer = setTimeout(() => { lastMX = -1; lastMY = -1; }, 200);
   }, { passive: true });
-  window.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+
+  /* theme toggle refreshes hues */
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    /* recolour existing rings to new palette */
+    const pal = getPalette();
+    for (const ring of rings) {
+      const col = pal[Math.floor(Math.random() * pal.length)];
+      ring.hue = col.h + (Math.random() - 0.5) * 22;
+      ring.sat = col.s;
+      ring.lit = col.l;
+    }
+  });
 
   resize();
-  buildParticles();
+  seedRings();
   loop();
+
 })();
 
 /* ============================================================
@@ -474,15 +562,8 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
 })();
 
 /* ============================================================
-   13. CANVAS — LIGHT MODE COLOR SWAP
+   13. (Canvas theme swap handled inside suminagashi init above)
    ============================================================ */
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', () => {
-  // canvas opacity adapts to theme
-  const canvas = document.getElementById('bg-canvas');
-  const isDark  = document.documentElement.dataset.theme === 'dark';
-  canvas.style.opacity = isDark ? '0.55' : '0.25';
-});
 
 /* ============================================================
    14. NUMBERS COUNTER ANIMATION in hero stats
