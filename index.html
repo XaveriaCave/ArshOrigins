@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <title>Adarsh Maurya — Software Engineer</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
 </head>
+
 <body>
 
   <!-- Canvas for interactive background -->
@@ -20,16 +25,21 @@
       <svg class="logo-svg" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#00c8ff"/>
-            <stop offset="100%" stop-color="#7b2fff"/>
+            <stop offset="0%" stop-color="#00c8ff" />
+            <stop offset="100%" stop-color="#7b2fff" />
           </linearGradient>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
         </defs>
-        <polygon points="22,4 38,38 6,38" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linejoin="round" filter="url(#glow)" class="logo-triangle"/>
-        <line x1="14" y1="31" x2="27" y2="17" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" class="logo-cut"/>
+        <polygon points="22,4 38,38 6,38" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linejoin="round"
+          filter="url(#glow)" class="logo-triangle" />
+        <line x1="14" y1="31" x2="27" y2="17" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round"
+          class="logo-cut" />
       </svg>
       <span class="logo-name">Adarsh</span>
     </a>
@@ -71,11 +81,6 @@
     <!-- Hero Section -->
     <section id="hero">
       <div class="hero-content">
-        <div class="hero-badge reveal">
-          <span class="badge-dot"></span>
-          <span class="badge-dot"></span>
-          <span class="badge-dot"></span>
-        </div>
         <h1 class="hero-title reveal">
           <span class="line">Hi, I'm</span>
           <span class="line accent-gradient">Adarsh Maurya</span>
@@ -84,7 +89,8 @@
           <span class="typed-text" id="typed"></span><span class="cursor">|</span>
         </p>
         <p class="hero-desc reveal">
-          Software Engineer crafting high-performance backends, intelligent ML systems,<br>and seamless full-stack experiences. Based in India.
+          Software Engineer crafting high-performance backends, intelligent ML systems,<br>and seamless full-stack
+          experiences. Based in India.
         </p>
         <div class="hero-actions reveal">
           <a href="#projects" class="btn-primary">View My Work</a>
@@ -110,14 +116,20 @@
       <div class="hero-visual reveal">
         <div class="avatar-ring">
           <div class="avatar-inner">
-            <span class="avatar-emoji">👨‍💻</span>
+            <div class="hero-badge reveal">
+              <span class="badge-dot"></span>
+              <span class="badge-dot"></span>
+              <!-- <span class="badge-dot"></span> -->
+            </div>
+
           </div>
           <svg class="ring-svg" viewBox="0 0 200 200">
-            <circle cx="100" cy="100" r="90" fill="none" stroke="url(#ringGrad)" stroke-width="1.5" stroke-dasharray="6 4" class="ring-dashed"/>
+            <circle cx="100" cy="100" r="90" fill="none" stroke="url(#ringGrad)" stroke-width="1.5"
+              stroke-dasharray="6 4" class="ring-dashed" />
             <defs>
               <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00c8ff"/>
-                <stop offset="100%" stop-color="#7b2fff"/>
+                <stop offset="0%" stop-color="#00c8ff" />
+                <stop offset="100%" stop-color="#7b2fff" />
               </linearGradient>
             </defs>
           </svg>
@@ -139,9 +151,13 @@
         <h2 class="section-title reveal">Building things that matter</h2>
         <div class="about-grid">
           <div class="about-text reveal">
-            <p>I'm a Software Engineer at <strong>Ksolves India Limited</strong>, working on high-performance connectors and Odoo customization. My journey spans ML pipelines, full-stack development, and competitive programming.</p>
-            <p>With a B.Tech in Computer Science from <strong>IET Bundelkhand University</strong> (8.39 CGPA), I bring a strong foundation in algorithms, system design, and machine learning to every project.</p>
-            <p>When I'm not coding, I'm pushing my LeetCode rating higher — currently in the <strong>top 8% globally</strong>.</p>
+            <p>I'm a Software Engineer at <strong>Ksolves India Limited</strong>, working on high-performance connectors
+              and Odoo customization. My journey spans ML pipelines, full-stack development, and competitive
+              programming.</p>
+            <p>With a B.Tech in Computer Science from <strong>IET Bundelkhand University</strong> (8.39 CGPA), I bring a
+              strong foundation in algorithms, system design, and machine learning to every project.</p>
+            <p>When I'm not coding, I'm pushing my LeetCode rating higher — currently in the <strong>top 8%
+                globally</strong>.</p>
             <div class="about-links">
               <a href="mailto:adarshmsd1@gmail.com" class="link-chip">✉️ adarshmsd1@gmail.com</a>
               <a href="tel:7071161116" class="link-chip">📞 7071161116</a>
@@ -197,7 +213,9 @@
             </div>
             <div class="skill-bar-row">
               <span>Proficiency</span>
-              <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="90"></div>
+              </div>
             </div>
           </div>
 
@@ -216,7 +234,9 @@
             </div>
             <div class="skill-bar-row">
               <span>Proficiency</span>
-              <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="85"></div>
+              </div>
             </div>
           </div>
 
@@ -234,7 +254,9 @@
             </div>
             <div class="skill-bar-row">
               <span>Proficiency</span>
-              <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="88"></div>
+              </div>
             </div>
           </div>
 
@@ -252,7 +274,9 @@
             </div>
             <div class="skill-bar-row">
               <span>Proficiency</span>
-              <div class="skill-bar"><div class="skill-fill" data-width="82"></div></div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="82"></div>
+              </div>
             </div>
           </div>
 
@@ -268,7 +292,9 @@
             </div>
             <div class="skill-bar-row">
               <span>Proficiency</span>
-              <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="80"></div>
+              </div>
             </div>
           </div>
 
@@ -286,7 +312,9 @@
             </div>
             <div class="skill-bar-row">
               <span>Proficiency</span>
-              <div class="skill-bar"><div class="skill-fill" data-width="92"></div></div>
+              <div class="skill-bar">
+                <div class="skill-fill" data-width="92"></div>
+              </div>
             </div>
           </div>
 
@@ -315,12 +343,14 @@
                 </div>
               </div>
               <ul class="exp-points">
-                <li>Led client-facing delivery achieving <strong>90% improvement</strong> in data import performance via Python + PostgreSQL.</li>
+                <li>Led client-facing delivery achieving <strong>90% improvement</strong> in data import performance via
+                  Python + PostgreSQL.</li>
                 <li>Specialized in Odoo development with ORM, Odoo Owl, JavaScript, and QWeb customization.</li>
                 <li>Improved user engagement and sales through optimized website projects.</li>
               </ul>
               <div class="exp-tags">
-                <span class="etag">Python</span><span class="etag">PostgreSQL</span><span class="etag">Odoo</span><span class="etag">JavaScript</span>
+                <span class="etag">Python</span><span class="etag">PostgreSQL</span><span class="etag">Odoo</span><span
+                  class="etag">JavaScript</span>
               </div>
             </div>
           </div>
@@ -344,7 +374,8 @@
                 <li>Executed complex SQL queries for data extraction and manipulation.</li>
               </ul>
               <div class="exp-tags">
-                <span class="etag">Python</span><span class="etag">Power BI</span><span class="etag">SQL</span><span class="etag">ML</span>
+                <span class="etag">Python</span><span class="etag">Power BI</span><span class="etag">SQL</span><span
+                  class="etag">ML</span>
               </div>
             </div>
           </div>
@@ -363,11 +394,14 @@
                 </div>
               </div>
               <ul class="exp-points">
-                <li>Built virtual lab simulations using 7–8 technologies (CSS, JS, Figma, Vectary, Webflow, jQuery).</li>
-                <li>Fine-tuned <code>Helsinki-NLP/opus-mt-en-hi</code> transformer achieving <strong>95%+ accuracy</strong> on EN→HI translation.</li>
+                <li>Built virtual lab simulations using 7–8 technologies (CSS, JS, Figma, Vectary, Webflow, jQuery).
+                </li>
+                <li>Fine-tuned <code>Helsinki-NLP/opus-mt-en-hi</code> transformer achieving <strong>95%+
+                    accuracy</strong> on EN→HI translation.</li>
               </ul>
               <div class="exp-tags">
-                <span class="etag">NLP</span><span class="etag">Transformers</span><span class="etag">Webflow</span><span class="etag">JavaScript</span>
+                <span class="etag">NLP</span><span class="etag">Transformers</span><span
+                  class="etag">Webflow</span><span class="etag">JavaScript</span>
               </div>
             </div>
           </div>
@@ -386,11 +420,14 @@
                 </div>
               </div>
               <ul class="exp-points">
-                <li>End-to-end phishing domain prediction ML project on a dataset of <strong>88,647 records</strong>, 111 features.</li>
-                <li>Achieved <strong>95.09% accuracy</strong> using Random Forest + GridSearchCV; deployed on AWS Elastic Beanstalk.</li>
+                <li>End-to-end phishing domain prediction ML project on a dataset of <strong>88,647 records</strong>,
+                  111 features.</li>
+                <li>Achieved <strong>95.09% accuracy</strong> using Random Forest + GridSearchCV; deployed on AWS
+                  Elastic Beanstalk.</li>
               </ul>
               <div class="exp-tags">
-                <span class="etag">ML</span><span class="etag">Flask</span><span class="etag">AWS</span><span class="etag">Scikit-Learn</span>
+                <span class="etag">ML</span><span class="etag">Flask</span><span class="etag">AWS</span><span
+                  class="etag">Scikit-Learn</span>
               </div>
             </div>
           </div>
@@ -414,7 +451,8 @@
                 <li>Share links + bug fixes → <strong>20% increase</strong> in daily active users.</li>
               </ul>
               <div class="exp-tags">
-                <span class="etag">Django</span><span class="etag">DRF</span><span class="etag">Redis</span><span class="etag">Celery</span>
+                <span class="etag">Django</span><span class="etag">DRF</span><span class="etag">Redis</span><span
+                  class="etag">Celery</span>
               </div>
             </div>
           </div>
@@ -438,7 +476,8 @@
               </div>
             </div>
             <h3>Workstation</h3>
-            <p>Platform for founders to collaborate on projects, find co-founders, and turn startup ideas into reality.</p>
+            <p>Platform for founders to collaborate on projects, find co-founders, and turn startup ideas into reality.
+            </p>
             <div class="project-tags">
               <span class="ptag">Dec 2025 – Present</span>
             </div>
@@ -454,7 +493,8 @@
               </div>
             </div>
             <h3>LinkPad</h3>
-            <p>Alumni Portal with a fake information classifier using Bi-directional RNN (92%+ accuracy) + 10+ features.</p>
+            <p>Alumni Portal with a fake information classifier using Bi-directional RNN (92%+ accuracy) + 10+ features.
+            </p>
             <div class="project-tags">
               <span class="ptag">Django</span>
               <span class="ptag">ReactJS</span>
@@ -472,7 +512,8 @@
               </div>
             </div>
             <h3>Anti-Doping WebApp</h3>
-            <p>Web app for Ministry of Youth Affairs & Sports, India. Built for Smart India Hackathon 2022 with 10+ features.</p>
+            <p>Web app for Ministry of Youth Affairs & Sports, India. Built for Smart India Hackathon 2022 with 10+
+              features.</p>
             <div class="project-tags">
               <span class="ptag">Django</span>
               <span class="ptag">MongoDB</span>
@@ -496,21 +537,24 @@
           <div class="achievement-card glass reveal">
             <div class="ach-icon">🏆</div>
             <h3>LeetCode Top 8%</h3>
-            <p>1782 rating on LeetCode, with 1200+ DSA problems solved across LeetCode, HackerRank, GFG, and Codeforces.</p>
+            <p>1782 rating on LeetCode, with 1200+ DSA problems solved across LeetCode, HackerRank, GFG, and Codeforces.
+            </p>
             <span class="ach-tag">Competitive Programming</span>
           </div>
 
           <div class="achievement-card glass reveal">
             <div class="ach-icon">🎤</div>
             <h3>IDE Boot Camp 2023</h3>
-            <p>Presented an AI/ML in Education startup idea at NITTTR Chandigarh, Ministry of Education, Government of India.</p>
+            <p>Presented an AI/ML in Education startup idea at NITTTR Chandigarh, Ministry of Education, Government of
+              India.</p>
             <span class="ach-tag">Innovation · National</span>
           </div>
 
           <div class="achievement-card glass reveal">
             <div class="ach-icon">📝</div>
             <h3>GATE DS 2025</h3>
-            <p>Ranked 5646 in GATE Data Science 2025. Also ranked 2nd among 50,000+ students in PW's Data Science Masters course.</p>
+            <p>Ranked 5646 in GATE Data Science 2025. Also ranked 2nd among 50,000+ students in PW's Data Science
+              Masters course.</p>
             <span class="ach-tag">Academic · Rank 2 / 50k+</span>
           </div>
 
@@ -557,7 +601,7 @@
             </a>
           </div>
 
-          <form class="contact-form glass reveal" id="contact-form" novalidate>
+          <!-- <form class="contact-form glass reveal" id="contact-form" novalidate>
             <div class="form-group">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required />
@@ -577,7 +621,7 @@
             <div class="form-success" id="form-success">
               <span>✅ Message sent! I'll get back to you soon.</span>
             </div>
-          </form>
+          </form> -->
         </div>
       </div>
     </section>
@@ -605,4 +649,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>
