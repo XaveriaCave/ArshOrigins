@@ -193,6 +193,15 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.01em;}
 .hero .role .tag{color:var(--amber);}
 
 .hero-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;opacity:0;}
+.resume-cta{margin-top:26px;opacity:0;}
+.resume-btn{
+  font-family:var(--mono);font-size:13px;font-weight:500;color:#0B0E14;
+  background:var(--teal);border:1px solid var(--teal);border-radius:7px;
+  padding:11px 20px;display:inline-flex;align-items:center;gap:9px;
+  text-decoration:none;transition:transform .25s, box-shadow .25s, opacity .25s;
+}
+.resume-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(94,234,212,.25);}
+html[data-theme="light"] .resume-btn{color:#FAFAF8;}
 .hlink{
   font-family:var(--mono);font-size:12.5px;color:var(--text);
   border:1px solid var(--line);padding:9px 16px;border-radius:6px;
@@ -291,6 +300,19 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.01em;}
 .proj ul{list-style:none;margin-top:10px;}
 .proj li{padding-left:18px;position:relative;margin-bottom:6px;}
 .proj li::before{content:'›';position:absolute;left:0;color:var(--teal);}
+.proj-image{
+  position:relative;width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;
+  margin-bottom:14px;border:1px solid var(--line);background:var(--bg-soft);
+}
+.proj-image img{width:100%;height:100%;object-fit:cover;display:block;}
+.img-placeholder{
+  display:none;position:absolute;inset:0;align-items:center;justify-content:center;
+  text-align:center;padding:12px;font-family:var(--mono);font-size:11px;color:var(--muted);
+  line-height:1.6;
+}
+.img-placeholder code{color:var(--teal);}
+.proj-image.img-missing .img-placeholder{display:flex;}
+.proj-image.img-missing img{display:none;}
 .proj-more{
   font-family:var(--mono);font-size:11.5px;color:var(--proj-more);margin-top:14px;
   transition:color .25s, transform .25s;
@@ -332,19 +354,6 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.01em;}
 .badge-version{color:var(--teal);border-color:rgba(94,234,212,.35);}
 .badge-type{color:var(--amber);border-color:rgba(245,166,35,.35);}
 .modal-desc{color:var(--muted);font-size:14.5px;margin-bottom:24px;}
-.modal-image{
-  display:none;width:100%;border-radius:10px;overflow:hidden;margin-bottom:22px;
-  border:1px solid var(--line);background:var(--bg-soft);
-}
-.modal-image.has-content{display:block;}
-.modal-image img{display:none;width:100%;height:auto;max-height:280px;object-fit:cover;}
-.modal-image img.loaded{display:block;}
-.modal-image-placeholder{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  height:160px;color:var(--muted);font-family:var(--mono);font-size:12px;text-align:center;padding:12px;
-}
-.modal-image-placeholder span:first-child{font-size:26px;opacity:.6;}
-.modal-image-placeholder.hidden{display:none;}
 .modal-section{margin-bottom:22px;}
 .modal-label{
   font-family:var(--mono);font-size:11px;color:#3A4253;letter-spacing:.08em;
@@ -446,6 +455,12 @@ footer{
   </div>
   <h1 id="heroTitle">Adarsh <span class="accent">Maurya</span></h1>
   <div class="role" id="heroRole">Software Engineer <span class="tag">·</span> ML/Backend <span class="tag">·</span> 1782 LeetCode <span class="tag">(Top 8%)</span></div>
+  <div class="resume-cta" id="resumeCta">
+    <a class="resume-btn" href="Adarsh_Maurya_Resume.pdf" download>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Download Resume
+    </a>
+  </div>
   <div class="hero-links" id="heroLinks">
     <a class="hlink" href="mailto:adarshmsd1@gmail.com"><span class="k">→</span>email</a>
     <a class="hlink" href="tel:7071161116"><span class="k">→</span>7071161116</a>
@@ -582,21 +597,30 @@ footer{
     <div class="proj" data-project="arshmind" tabindex="0" role="button" aria-label="View ArshMind details">
       <div class="proj-top"><h3>ArshMind</h3><span class="tag">GITHUB · LIVE</span></div>
       <div class="proj-time">arshmind2.web.app · ongoing</div>
-      <p>A Firebase-hosted web app with a Render backend, integrating Dodo Payments for checkout, webhooks, and status tracking.</p>
+      <div class="proj-image">
+        <img src="images/arshmind-preview.png" alt="ArshMind preview" onerror="this.style.display='none'; this.parentElement.classList.add('img-missing');">
+        <div class="img-placeholder">drop image at<br><code>images/arshmind-preview.png</code></div>
+      </div>
       <div class="proj-more">view details →</div>
     </div>
 
     <div class="proj" data-project="pacificmind" tabindex="0" role="button" aria-label="View Pacific Mind Teams details">
       <div class="proj-top"><h3>Pacific Mind Teams</h3><span class="tag">GITHUB · MULTI-AGENT</span></div>
       <div class="proj-time">Agentic DocuSwarm · ongoing</div>
-      <p>A React + Three.js + TypeScript app running a Supervisor → Writer → Auditor → Publisher agent loop backed by Gemini.</p>
+      <div class="proj-image">
+        <img src="images/pacific-mind-teams-preview.png" alt="Pacific Mind Teams preview" onerror="this.style.display='none'; this.parentElement.classList.add('img-missing');">
+        <div class="img-placeholder">drop image at<br><code>images/pacific-mind-teams-preview.png</code></div>
+      </div>
       <div class="proj-more">view details →</div>
     </div>
 
     <div class="proj" data-project="arshcorp" tabindex="0" role="button" aria-label="View ArshCorp details">
       <div class="proj-top"><h3>ArshCorp</h3><span class="tag">GITHUB</span></div>
       <div class="proj-time">ongoing</div>
-      <p>Update this card with ArshCorp's real description — placeholder copy below until details are confirmed.</p>
+      <div class="proj-image">
+        <img src="images/arshcorp-preview.png" alt="ArshCorp preview" onerror="this.style.display='none'; this.parentElement.classList.add('img-missing');">
+        <div class="img-placeholder">drop image at<br><code>images/arshcorp-preview.png</code></div>
+      </div>
       <div class="proj-more">view details →</div>
     </div>
 
@@ -641,14 +665,6 @@ footer{
       <div class="modal-badges">
         <span class="badge badge-version" id="modalVersion"></span>
         <span class="badge badge-type" id="modalType"></span>
-      </div>
-    </div>
-
-    <div class="modal-image" id="modalImageWrap">
-      <img id="modalImage" src="" alt="">
-      <div class="modal-image-placeholder" id="modalImagePlaceholder">
-        <span>🖼</span>
-        <span id="modalImagePath"></span>
       </div>
     </div>
 
@@ -755,7 +771,8 @@ function revealHero(){
   anime.timeline({easing:'easeOutExpo'})
     .add({targets:'#heroTitle', opacity:[0,1], translateY:[20,0], duration:700})
     .add({targets:'#heroRole', opacity:[0,1], translateY:[10,0], duration:500}, '-=400')
-    .add({targets:'#heroLinks', opacity:[0,1], translateY:[10,0], duration:500}, '-=300')
+    .add({targets:'#resumeCta', opacity:[0,1], translateY:[10,0], duration:500}, '-=300')
+    .add({targets:'#heroLinks', opacity:[0,1], translateY:[10,0], duration:500}, '-=350')
     .add({targets:'.hlink', opacity:[0,1], translateX:[-8,0], delay:anime.stagger(60), duration:400}, '-=400');
 }
 
@@ -977,21 +994,21 @@ const projectData = {
   },
   arshmind:{
     title:'ArshMind', slug:'arshmind', version:'v1.0 · live', type:'Product · Payments-enabled webapp',
-    image:'images/arshmind.png',
+    desc:'A Firebase-hosted web app with a Render backend, integrating Dodo Payments for checkout, webhooks, and status tracking.',
     stack:['Firebase','Firestore','Render','Node.js','Dodo Payments'],
     scope:'Solo build', timer:'Ongoing', timerPct:55,
     utils:['Firebase Admin SDK for auth/data','standardwebhooks for payment webhooks','/api/payments/create-checkout + status endpoints']
   },
   pacificmind:{
     title:'Pacific Mind Teams', slug:'pacific-mind-teams', version:'v0.4 · Agentic DocuSwarm', type:'Multi-agent system',
-    image:'pacific-mind-teams.jpg',
+    desc:'A React + Three.js + TypeScript app running a Supervisor → Writer → Auditor → Publisher agent loop backed by Gemini.',
     stack:['React','Three.js','TypeScript','@google/genai'],
     scope:'Solo build, multi-agent design', timer:'Ongoing', timerPct:45,
     utils:['AgentNode + delegationTaskInstruction routing','consecutiveTurns >= 15 safety cutoff','Exploring sqlite-vec/pgvector + LangGraph next']
   },
   arshcorp:{
     title:'ArshCorp', slug:'arshcorp', version:'unreleased', type:'(update type)',
-    image:'images/arshcorp.png',
+    desc:'Update this card with ArshCorp\'s real description — placeholder copy below until details are confirmed.',
     stack:['(add stack)'],
     scope:'(add scope)', timer:'(add timeline)', timerPct:10,
     utils:['(add utils/tooling used)']
@@ -1011,27 +1028,7 @@ function openProjectModal(key){
   document.getElementById('modalScope').textContent = d.scope;
   document.getElementById('modalTimer').textContent = d.timer;
 
-  const descEl = document.getElementById('modalDesc');
-  const imageWrap = document.getElementById('modalImageWrap');
-  const imageEl = document.getElementById('modalImage');
-  const placeholderEl = document.getElementById('modalImagePlaceholder');
-  const pathEl = document.getElementById('modalImagePath');
-
-  if(d.image){
-    descEl.style.display = 'none';
-    imageWrap.classList.add('has-content');
-    pathEl.textContent = 'place image at: ' + d.image;
-    placeholderEl.classList.remove('hidden');
-    imageEl.classList.remove('loaded');
-    imageEl.onload = ()=>{ imageEl.classList.add('loaded'); placeholderEl.classList.add('hidden'); };
-    imageEl.onerror = ()=>{ imageEl.classList.remove('loaded'); placeholderEl.classList.remove('hidden'); };
-    imageEl.src = d.image;
-  } else {
-    descEl.style.display = '';
-    descEl.textContent = d.desc;
-    imageWrap.classList.remove('has-content');
-    imageEl.src = '';
-  }
+  document.getElementById('modalDesc').textContent = d.desc;
 
   const stackEl = document.getElementById('modalStack');
   stackEl.innerHTML = '';
