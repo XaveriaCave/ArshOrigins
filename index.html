@@ -1912,20 +1912,20 @@
         return;
       }
 
-      typeLine(l1, 'whoami', 45, () => {
+      typeLine(l1, 'whoami', 20, () => {
         setTimeout(() => {
-          typeLine(l2, 'Adarsh Maurya — Software Engineer', 28, () => {
+          typeLine(l2, 'Adarsh Maurya — Software Engineer', 12, () => {
             setTimeout(() => {
               l3.innerHTML = '';
               const span = document.createElement('span');
               l3.appendChild(span);
-              typeLine(span, 'status: building things that scale', 26, () => {
+              typeLine(span, 'status: building things that scale', 10, () => {
                 span.insertAdjacentHTML('afterend', '<span class="cursor"></span>');
                 revealHero();
               });
-            }, 300);
+            }, 100);
           });
-        }, 250);
+        }, 80);
       });
     }
 
