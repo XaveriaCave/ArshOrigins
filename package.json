@@ -1,0 +1,20 @@
+{
+  "name": "arshorigins",
+  "version": "1.0.0",
+  "description": "Adarsh Maurya Portfolio",
+  "main": "app.js",
+  "scripts": {
+    "start": "serve .",
+    "dev": "serve .",
+    "build": "node -e \"console.log('Static site is ready. No build step needed.')\""
+  },
+  "keywords": [
+    "portfolio",
+    "static-site"
+  ],
+  "author": "Adarsh Maurya",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
