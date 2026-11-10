@@ -1560,17 +1560,19 @@
     </div>
     <div class="proj-grid" id="projGrid">
 
-      <div class="proj" data-project="pacificmind" tabindex="0" role="button"
-        aria-label="View Pacific Mind Teams details">
+      <div class="proj" data-project="officestudio" tabindex="0" role="button"
+        aria-label="View Office Studio details">
         <div class="proj-top">
-          <h3>Pacific Mind Teams</h3><span class="tag">GITHUB · MULTI-AGENT</span>
+          <h3>Office Studio</h3><span class="tag">GITHUB · MULTI-AGENT</span>
         </div>
-        <div class="proj-time">Agentic DocuSwarm · ongoing</div>
+        <div class="proj-time">3D Office Playground &amp; CAD Studio · ongoing</div>
         <div class="proj-image">
-          <img src="images\pacific-mind-teams.png" alt="Pacific Mind Teams preview"
+          <img src="images/office-studio.png" alt="Office Studio preview"
             onerror="this.style.display='none'; this.parentElement.classList.add('img-missing');">
-          <div class="img-placeholder">drop image at<br><code>images/pacific-mind-teams-preview.png</code></div>
+          <div class="img-placeholder">drop image at<br><code>images/office-studio.png</code></div>
         </div>
+        <p>A multi-AI-agent orchestrator workspace where you build a company, lay out its offices in 2D CAD and 3D, and
+          staff them with AI employee agents.</p>
         <div class="proj-more">view details →</div>
       </div>
 
@@ -1651,23 +1653,19 @@
         <div class="proj-more">view details →</div>
       </div>
 
-      <div class="proj" data-project="neofinance" tabindex="0" role="button"
-        aria-label="View Neo Finance Planner details">
+      <div class="proj" data-project="pacificmind" tabindex="0" role="button"
+        aria-label="View Pacific Mind Teams details">
         <div class="proj-top">
-          <h3>Neo Finance Planner</h3><span class="tag">GITHUB · LIVE</span>
+          <h3>Pacific Mind Teams</h3><span class="tag">GITHUB · LIVE</span>
         </div>
-        <div class="proj-time">xaveriacave.github.io/Neo-Finance-Planner · ongoing</div>
+        <div class="proj-time">xaveriacave.github.io/Pacific-Mind-Teams · ongoing</div>
         <div class="proj-image">
-          <img src="images/nfp.png" alt="Neo Finance Planner preview"
+          <img src="images/pacific-mind-teams.png" alt="Pacific Mind Teams preview"
             onerror="this.style.display='none'; this.parentElement.classList.add('img-missing');">
-          <div class="img-placeholder">drop image at<br><code>images/nfp.png</code></div>
+          <div class="img-placeholder">drop image at<br><code>images/pacific-mind-teams.png</code></div>
         </div>
-        <p>A comprehensive financial app with real-time tracking of income, expenses, and a diverse investment
-          portfolio, automated budget alerts, and ROI calculations.</p>
-        <ul>
-          <li>Interactive 40-year trajectory projections accounting for inflation and asset diversification.</li>
-          <li>Tailored strategic recommendations and one-click export of financial summaries to PDF reports.</li>
-        </ul>
+        <p>A multi-agent system running a Supervisor → Writer → Auditor → Publisher loop, backed by Gemini and visualized
+          in 3D.</p>
         <div class="proj-more">view details →</div>
       </div>
 
@@ -2142,13 +2140,6 @@
         scope: 'Solo build', timer: 'Ongoing', timerPct: 60, liveUrl: 'https://xaveriacave.github.io/SysDesign/',
         utils: ['Repository notes converted into an interactive dashboard', 'Visual learning environment for system design concepts']
       },
-      neofinance: {
-        title: 'Neo Finance Planner', slug: 'neo-finance-planner', version: 'v1.0 · live', type: 'Personal · Finance webapp',
-        desc: 'A comprehensive financial app providing real-time tracking of income, expenses, and a diverse investment portfolio with automated budget alerts and ROI calculations.',
-        stack: ['TypeScript/React', 'Tailwind CSS'],
-        scope: 'Solo build', timer: 'Ongoing', timerPct: 60, liveUrl: 'https://xaveriacave.github.io/Neo-Finance-Planner/',
-        utils: ['Interactive 40-year trajectory projections accounting for inflation and diversification', 'Tailored strategic financial recommendations', 'Instant export of financial summaries to professional PDF reports']
-      },
       workstation: {
         title: 'Workstation', slug: 'workstation', version: 'v0.1.0 · in dev', type: 'Personal · SaaS tool',
         desc: 'A platform for founders to collaborate on projects and turn ideas into reality — workspace, planning, and execution in one place.',
@@ -2176,6 +2167,13 @@
         stack: ['Firebase', 'Firestore', 'Render', 'Node.js', 'Dodo Payments', 'Gemini AI', 'RAG'],
         scope: 'Solo build', timer: 'Ongoing', timerPct: 55, liveUrl: 'https://arshmind2.web.app/',
         utils: ['Firebase Admin SDK for auth/data', 'standardwebhooks for payment webhooks', '/api/payments/create-checkout + status endpoints']
+      },
+      officestudio: {
+        title: 'Office Studio', slug: 'office-studio', version: 'v0.1 · 3D Office Playground', type: 'Multi-agent platform',
+        desc: 'A multi-AI-agent orchestrator workspace: create a company, design its office floors in 2D CAD and an interactive 3D WebGL world, and staff them with AI employee agents.',
+        stack: ['React', 'Three.js', 'TypeScript', 'Tailwind CSS', 'Vite', 'Express', '@google/genai', 'jsPDF'],
+        scope: 'Solo build, multi-agent design', timer: 'Ongoing', timerPct: 50, liveUrl: 'https://xaveriacave.github.io/OfficeStudio/',
+        utils: ['3D WebGL playground with drag-and-drop furniture, day/sunset/night lighting, and smart cutaway views', '2D floor-polygon CAD studio with a split 2D + 3D view', 'AI agents per office, plus accounting with PDF invoice generation']
       },
       pacificmind: {
         title: 'Pacific Mind Teams', slug: 'pacific-mind-teams', version: 'v0.4 · Agentic DocuSwarm', type: 'Multi-agent system',
